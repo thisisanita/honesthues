@@ -75,7 +75,7 @@ const userLogin = async (req, res) => {
       //   sessionId: sessionId,
     };
 
-    const token = jwt.sign(claims, process.env.ACCESS_SECRET, {
+    const access = jwt.sign(claims, process.env.ACCESS_SECRET, {
       expiresIn: "1h",
       jwtid: uuidv4(),
     });
@@ -85,7 +85,7 @@ const userLogin = async (req, res) => {
     });
     res
       .status(200)
-      .send({ message: "User logged in successfully", token, refresh });
+      .send({ message: "User logged in successfully", access, refresh });
   } catch (error) {
     res
       .status(500)
@@ -119,7 +119,7 @@ const brandLogin = async (req, res) => {
       //   sessionId: sessionId,
     };
 
-    const token = jwt.sign(claims, process.env.ACCESS_SECRET, {
+    const access = jwt.sign(claims, process.env.ACCESS_SECRET, {
       expiresIn: "1h",
       jwtid: uuidv4(),
     });
@@ -130,7 +130,7 @@ const brandLogin = async (req, res) => {
     });
     res
       .status(200)
-      .send({ message: "User logged in successfully", token, refresh });
+      .send({ message: "User logged in successfully", access, refresh });
   } catch (error) {
     res
       .status(500)
@@ -138,48 +138,49 @@ const brandLogin = async (req, res) => {
   }
 };
 
-const refreshUserToken = (req, res) => {
-  try {
-    // Extract the JWT from the Authorization header
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-    const refreshToken = authHeader.split(" ")[1];
+// const refreshUserToken = (req, res) => {
+//   try {
+//     // Extract the JWT from the Authorization header
+//     const authHeader = req.headers.authorization;
+//     if (!authHeader || !authHeader.startsWith("Bearer ")) {
+//       return res.status(401).json({ message: "Unauthorized" });
+//     }
 
-    // Verify the JWT
-    const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET);
+//     // Verify the JWT
+//     const decoded = jwt.verify(req.body.refresh, process.env.REFRESH_SECRET);
 
-    // Determine the user type based on the endpoint
-    const userType = req.path.includes("/refresh/user") ? "user" : "brand";
+//     // Determine the user type based on the endpoint
+//     const userType = req.path.includes("/refresh/user") ? "user" : "brand";
 
-    const claims = {
-      email: decoded.email,
-      role: userType, // Use the determined userType as the role
-    };
+//     const claims = {
+//       email: decoded.email,
+//       role: userType, // Use the determined userType as the role
+//     };
 
-    // Generate a new access token
-    const token = jwt.sign(claims, process.env.ACCESS_SECRET, {
-      expiresIn: "20m",
-      jwtid: uuidv4(),
-    });
+//     // Generate a new access token
+//     const token = jwt.sign(claims, process.env.ACCESS_SECRET, {
+//       expiresIn: "20m",
+//       jwtid: uuidv4(),
+//     });
 
-    // Send the new access token in the response
-    res.json({ token });
-  } catch (error) {
-    console.error(error.message);
-    res
-      .status(400)
-      .json({ status: "error", msg: "Refreshing user token failed" });
-  }
-};
+//     // Send the new access token in the response
+//     console.log("token", token);
+//     res.json({ token });
+//   } catch (error) {
+//     console.error(error.message);
+//     res
+//       .status(400)
+//       .json({ status: "error", msg: "Refreshing user token failed" });
+//   }
+// };
 
 // const refreshUserToken = (req, res) => {
 //   try {
 //     const decoded = jwt.verify(req.body.refresh, process.env.REFRESH_SECRET);
+
 //     const claims = {
 //       email: decoded.email,
-//       role: decoded.role,
+//       role: decoded.userType,
 //     };
 
 //     const token = jwt.sign(claims, process.env.ACCESS_SECRET, {
@@ -195,7 +196,38 @@ const refreshUserToken = (req, res) => {
 //   }
 // };
 
-const refreshBrandToken = (req, res) => {
+// const refreshUserToken = (req, res) => {
+//   try {
+//     // Determine the userType based on the request path
+//     const userType = req.path.includes("/refresh/user") ? "user" : "brand";
+
+//     // Verify the refresh token
+//     const decoded = jwt.verify(req.body.refresh, process.env.REFRESH_SECRET);
+
+//     // Construct the claims object with the determined userType
+//     const claims = {
+//       email: decoded.email,
+//       role: userType, // Use the determined userType here
+//     };
+
+//     // Sign the new token with the claims
+//     const token = jwt.sign(claims, process.env.ACCESS_SECRET, {
+//       expiresIn: "20m",
+//       jwtid: uuidv4(),
+//     });
+
+//     // Send the new token in the response
+//     res.json({ token });
+//   } catch (error) {
+//     console.error(error.message);
+//     // Send an error response
+//     res
+//       .status(400)
+//       .json({ status: "error", msg: "refreshing user token failed" });
+//   }
+// };
+
+const refresh = (req, res) => {
   try {
     const decoded = jwt.verify(req.body.refresh, process.env.REFRESH_SECRET);
     const claims = {
@@ -203,11 +235,11 @@ const refreshBrandToken = (req, res) => {
       role: decoded.role,
     };
 
-    const token = jwt.sign(claims, process.env.ACCESS_SECRET, {
+    const access = jwt.sign(claims, process.env.ACCESS_SECRET, {
       expiresIn: "20m",
       jwtid: uuidv4(),
     });
-    res.json({ token });
+    res.json({ access });
   } catch (error) {
     console.error(error.message);
     res
@@ -220,6 +252,5 @@ module.exports = {
   register,
   userLogin,
   brandLogin,
-  refreshUserToken,
-  refreshBrandToken,
+  refresh,
 };

@@ -5,13 +5,14 @@ const {
   register,
   userLogin,
   brandLogin,
-  refreshUserToken,
-  refreshBrandToken,
+  refresh,
+  // refreshUserToken,
+  // refreshBrandToken,
 } = require("../controllers/auth");
 
 router.post("/register", register);
 router.post("/login/user", userLogin);
 router.post("/login/brand", brandLogin);
-router.post("/refresh/brand", refreshBrandToken);
-router.post("/refresh/user", refreshUserToken);
+router.post("/refresh", refresh);
+// router.post("/refresh/user", refreshUserToken);
 module.exports = router;
