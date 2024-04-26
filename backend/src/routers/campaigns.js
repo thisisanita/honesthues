@@ -12,8 +12,8 @@ const router = express.Router();
 
 router.post("/campaigns", brandAuth, createCampaign);
 router.get("/campaigns", userAuth, getAllCampaigns);
-router.patch("/campaigns/:id", brandAuth, updateCampaign);
-router.get("/campaigns/:email", brandAuth, getCampaignsByEmail);
-router.delete("/campaigns/:id", brandAuth, deleteCampaign);
+router.patch("/campaigns", brandAuth, updateCampaign);
+router.get("/brand/campaigns", brandAuth, getCampaignsByEmail);
+router.delete("/campaigns", brandAuth, deleteCampaign);
 
 module.exports = router;

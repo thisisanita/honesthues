@@ -67,7 +67,7 @@ const getAllCampaigns = async (req, res) => {
 };
 
 const updateCampaign = async (req, res) => {
-  const campaignId = req.params.id;
+  const campaignId = req.body.id;
   const updates = req.body;
 
   try {
@@ -102,7 +102,7 @@ const updateCampaign = async (req, res) => {
 };
 
 const getCampaignsByEmail = async (req, res) => {
-  const brandEmail = req.params.email;
+  const brandEmail = req.body.email;
 
   try {
     // First, find the brand by email
@@ -138,16 +138,35 @@ const getCampaignsByEmail = async (req, res) => {
 };
 
 const deleteCampaign = async (req, res) => {
-  const campaignId = req.params.id;
+  const campaignId = req.body.id;
 
   try {
-    // Construct the DELETE query
-    const deleteQuery = `
-         DELETE FROM campaigns
-         WHERE id = $1
-         RETURNING *
-       `;
+    // First, check for any dependent requests
+    const checkDependentRequestsQuery = `
+       SELECT * FROM requests
+       WHERE campaign_id = $1
+     `;
+    const dependentRequests = await pool.query(checkDependentRequestsQuery, [
+      campaignId,
+    ]);
 
+    if (dependentRequests.rowCount > 0) {
+      // Handle dependent requests here
+      // For example, delete them or update them to reference a different campaign
+      // This is just an example; adjust according to your application's logic
+      const deleteDependentRequestsQuery = `
+         DELETE FROM requests
+         WHERE campaign_id = $1
+       `;
+      await pool.query(deleteDependentRequestsQuery, [campaignId]);
+    }
+
+    // Now, proceed with deleting the campaign
+    const deleteQuery = `
+       DELETE FROM campaigns
+       WHERE id = $1
+       RETURNING *
+     `;
     const result = await pool.query(deleteQuery, [campaignId]);
 
     if (result.rowCount === 0) {

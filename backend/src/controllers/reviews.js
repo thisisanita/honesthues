@@ -39,7 +39,7 @@ const createReview = async (req, res) => {
 };
 
 const getReviewsByCampaignId = async (req, res) => {
-  const campaignId = req.params.campaignId;
+  const campaignId = req.body.campaignId;
 
   try {
     // Construct the SELECT query
@@ -64,7 +64,7 @@ const getReviewsByCampaignId = async (req, res) => {
 };
 
 const updateReview = async (req, res) => {
-  const reviewId = req.params.reviewId;
+  const reviewId = req.body.id;
   const updates = req.body;
 
   try {
@@ -99,7 +99,7 @@ const updateReview = async (req, res) => {
 };
 
 const deleteReview = async (req, res) => {
-  const reviewId = req.params.id;
+  const reviewId = req.body.id;
 
   try {
     // Construct the DELETE query

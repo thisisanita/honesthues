@@ -1,9 +1,44 @@
 const { pool } = require("../db/db");
 
+// const createRequest = async (req, res) => {
+//   const { userId, received, campaignId } = req.body;
+
+//   try {
+//     // Construct the INSERT query
+//     const insertQuery = `
+//          INSERT INTO requests (user_id, received, campaign_id)
+//          VALUES ($1, $2, $3)
+//          RETURNING *
+//        `;
+
+//     const result = await pool.query(insertQuery, [
+//       userId,
+//       received,
+//       campaignId,
+//     ]);
+
+//     res.status(201).json(result.rows[0]);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Failed to create request" });
+//   }
+// };
+
 const createRequest = async (req, res) => {
   const { userId, received, campaignId } = req.body;
 
   try {
+    // First, check if the campaign exists
+    const checkCampaignQuery = `
+         SELECT * FROM campaigns
+         WHERE id = $1
+       `;
+    const campaign = await pool.query(checkCampaignQuery, [campaignId]);
+
+    if (campaign.rowCount === 0) {
+      return res.status(400).json({ error: "Campaign not found" });
+    }
+
     // Construct the INSERT query
     const insertQuery = `
          INSERT INTO requests (user_id, received, campaign_id)
@@ -25,7 +60,7 @@ const createRequest = async (req, res) => {
 };
 
 const getRequestsByCampaign = async (req, res) => {
-  const campaignId = req.params.campaignId;
+  const campaignId = req.body.campaignId;
 
   try {
     // Construct the SELECT query
@@ -50,7 +85,7 @@ const getRequestsByCampaign = async (req, res) => {
 };
 
 const getRequestsByUser = async (req, res) => {
-  const userId = req.params.userId;
+  const userId = req.body.userId;
 
   try {
     // Construct the SELECT query
@@ -73,7 +108,7 @@ const getRequestsByUser = async (req, res) => {
 };
 
 const deleteRequest = async (req, res) => {
-  const requestId = req.params.id;
+  const requestId = req.body.id;
 
   try {
     // Construct the DELETE query

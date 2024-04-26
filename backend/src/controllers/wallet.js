@@ -1,7 +1,7 @@
 const { pool } = require("../db/db");
 
 const assignCreditsToWallet = async (req, res) => {
-  const email = req.params.email;
+  const email = req.body.email;
   try {
     // First, find the user by email
     const userQuery = "SELECT id FROM users WHERE lower(email) = lower($1)";
@@ -39,7 +39,7 @@ const assignCreditsToWallet = async (req, res) => {
 };
 
 const getWalletByEmail = async (req, res) => {
-  const email = req.params.email;
+  const email = req.body.email;
 
   try {
     // First, find the user by email
@@ -67,7 +67,7 @@ const getWalletByEmail = async (req, res) => {
 };
 
 const editCreditsInWallet = async (req, res) => {
-  const email = req.params.email;
+  const email = req.body.email;
   const operation = req.body.operation; // "add" or "subtract"
   const amount = parseInt(req.body.amount, 10); // The amount to add or subtract
 
