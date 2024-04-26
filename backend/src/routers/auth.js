@@ -15,10 +15,18 @@ const {
   updateBrandProfile,
 } = require("../controllers/auth");
 
-router.post("/register", register);
-router.post("/login/user", userLogin);
-router.post("/login/brand", brandLogin);
-router.post("/refresh", refresh);
+const {
+  validateRegistrationData,
+  validateLoginData,
+  validateRefreshToken,
+} = require("../validators/auth");
+
+const { errorCheck } = require("../validators/errorCheck");
+
+router.post("/register", validateRegistrationData, errorCheck, register);
+router.post("/login/user", validateLoginData, errorCheck, userLogin);
+router.post("/login/brand", validateLoginData, errorCheck, brandLogin);
+router.post("/refresh", validateRefreshToken, errorCheck, refresh);
 router.get("/users", getAllUsers);
 router.get("/user/profile", getUserByEmail);
 router.get("/brand/profile", getBrandByEmail);
