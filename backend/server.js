@@ -9,6 +9,7 @@ const rateLimit = require("express-rate-limit");
 const auth = require("./src/routers/auth");
 const wallet = require("./src/routers/wallet");
 const campaigns = require("./src/routers/campaigns");
+const reviews = require("./src/routers/reviews");
 
 const helmet = require("helmet");
 const pool = require("./src/db/db");
@@ -30,7 +31,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/auth", auth);
-app.use("/api", wallet, campaigns);
+app.use("/api", wallet, campaigns, reviews);
 
 app.listen(5001);
 
