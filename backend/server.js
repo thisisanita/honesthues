@@ -10,6 +10,7 @@ const auth = require("./src/routers/auth");
 const wallet = require("./src/routers/wallet");
 const campaigns = require("./src/routers/campaigns");
 const reviews = require("./src/routers/reviews");
+const requests = require("./src/routers/requests");
 
 const helmet = require("helmet");
 const pool = require("./src/db/db");
@@ -31,7 +32,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/auth", auth);
-app.use("/api", wallet, campaigns, reviews);
+app.use("/api", wallet, campaigns, reviews, requests);
 
 app.listen(5001);
 
