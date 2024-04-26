@@ -7,6 +7,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const rateLimit = require("express-rate-limit");
 const auth = require("./src/routers/auth");
+const wallet = require("./src/routers/wallet");
+
 const helmet = require("helmet");
 const pool = require("./src/db/db");
 const path = require("path");
@@ -27,6 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/auth", auth);
+app.use("/api", wallet);
 
 app.listen(5001);
 

@@ -45,6 +45,5 @@ const brandAuth = (req, res, next) => {
     return res.status(403).send({ status: "error", msg: "missing token" });
   }
 };
-s;
 
 module.exports = { brandAuth, userAuth };
