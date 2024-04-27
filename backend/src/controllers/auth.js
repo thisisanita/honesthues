@@ -49,13 +49,20 @@ const register = async (req, res) => {
   }
 };
 
-const userLogin = async (req, res) => {
-  const { email, password } = req.body;
+const login = async (req, res) => {
+  const { email, password, userType } = req.body; // Include userType in the request body
 
   try {
-    const result = await pool.query("SELECT * FROM users WHERE email =$1", [
-      email,
-    ]);
+    let query = "";
+    if (userType === "user") {
+      query = "SELECT * FROM users WHERE email = $1";
+    } else if (userType === "brand") {
+      query = "SELECT * FROM brands WHERE email = $1";
+    } else {
+      return res.status(400).send({ message: "Invalid user type" });
+    }
+
+    const result = await pool.query(query, [email]);
     const user = result.rows[0];
 
     if (!user) {
@@ -66,13 +73,9 @@ const userLogin = async (req, res) => {
       return res.status(400).send({ message: "Invalid password" });
     }
 
-    // const sessionId = uuidv4();
-    const userType = req.path.includes("/login/user") ? "user" : "brand";
-
     const claims = {
       email: user.email,
-      role: userType, // Use the determined userType as the role
-      //   sessionId: sessionId,
+      role: userType, // Use the userType from the request body as the role
     };
 
     const access = jwt.sign(claims, process.env.ACCESS_SECRET, {
@@ -93,50 +96,94 @@ const userLogin = async (req, res) => {
   }
 };
 
-const brandLogin = async (req, res) => {
-  const { email, password } = req.body;
+// const userLogin = async (req, res) => {
+//   const { email, password } = req.body;
 
-  try {
-    const result = await pool.query("SELECT * FROM brands WHERE email =$1", [
-      email,
-    ]);
-    const brand = result.rows[0];
+//   try {
+//     const result = await pool.query("SELECT * FROM users WHERE email =$1", [
+//       email,
+//     ]);
+//     const user = result.rows[0];
 
-    if (!brand) {
-      return res.status(400).send({ message: "User not found" });
-    }
-    const isMatch = await bcrypt.compare(password, brand.password_hash);
-    if (!isMatch) {
-      return res.status(400).send({ message: "Invalid password" });
-    }
+//     if (!user) {
+//       return res.status(400).send({ message: "User not found" });
+//     }
+//     const isMatch = await bcrypt.compare(password, user.password_hash);
+//     if (!isMatch) {
+//       return res.status(400).send({ message: "Invalid password" });
+//     }
 
-    // const sessionId = uuidv4();
-    const userType = req.path.includes("/login/brand") ? "brand" : "user";
+//     // const sessionId = uuidv4();
+//     const userType = req.path.includes("/login/user") ? "user" : "brand";
 
-    const claims = {
-      email: brand.email,
-      role: userType, // Use the determined userType as the role
-      //   sessionId: sessionId,
-    };
+//     const claims = {
+//       email: user.email,
+//       role: userType, // Use the determined userType as the role
+//       //   sessionId: sessionId,
+//     };
 
-    const access = jwt.sign(claims, process.env.ACCESS_SECRET, {
-      expiresIn: "1h",
-      jwtid: uuidv4(),
-    });
+//     const access = jwt.sign(claims, process.env.ACCESS_SECRET, {
+//       expiresIn: "1h",
+//       jwtid: uuidv4(),
+//     });
+//     const refresh = jwt.sign(claims, process.env.REFRESH_SECRET, {
+//       expiresIn: "30d",
+//       jwtid: uuidv4(),
+//     });
+//     res
+//       .status(200)
+//       .send({ message: "User logged in successfully", access, refresh });
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .send({ message: "Error logging in user", error: error.message });
+//   }
+// };
 
-    const refresh = jwt.sign(claims, process.env.REFRESH_SECRET, {
-      expiresIn: "30d",
-      jwtid: uuidv4(),
-    });
-    res
-      .status(200)
-      .send({ message: "User logged in successfully", access, refresh });
-  } catch (error) {
-    res
-      .status(500)
-      .send({ message: "Error logging in user", error: error.message });
-  }
-};
+// const brandLogin = async (req, res) => {
+//   const { email, password } = req.body;
+
+//   try {
+//     const result = await pool.query("SELECT * FROM brands WHERE email =$1", [
+//       email,
+//     ]);
+//     const brand = result.rows[0];
+
+//     if (!brand) {
+//       return res.status(400).send({ message: "User not found" });
+//     }
+//     const isMatch = await bcrypt.compare(password, brand.password_hash);
+//     if (!isMatch) {
+//       return res.status(400).send({ message: "Invalid password" });
+//     }
+
+//     // const sessionId = uuidv4();
+//     const userType = req.path.includes("/login/brand") ? "brand" : "user";
+
+//     const claims = {
+//       email: brand.email,
+//       role: userType, // Use the determined userType as the role
+//       //   sessionId: sessionId,
+//     };
+
+//     const access = jwt.sign(claims, process.env.ACCESS_SECRET, {
+//       expiresIn: "1h",
+//       jwtid: uuidv4(),
+//     });
+
+//     const refresh = jwt.sign(claims, process.env.REFRESH_SECRET, {
+//       expiresIn: "30d",
+//       jwtid: uuidv4(),
+//     });
+//     res
+//       .status(200)
+//       .send({ message: "User logged in successfully", access, refresh });
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .send({ message: "Error logging in user", error: error.message });
+//   }
+// };
 
 // const refreshUserToken = (req, res) => {
 //   try {
@@ -374,8 +421,9 @@ const updateBrandProfile = async (req, res) => {
 };
 module.exports = {
   register,
-  userLogin,
-  brandLogin,
+  login,
+  // userLogin,
+  // brandLogin,
   refresh,
   getAllUsers,
   getAllBrands,

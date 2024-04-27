@@ -3,8 +3,9 @@ const router = express.Router();
 
 const {
   register,
-  userLogin,
-  brandLogin,
+  login,
+  // userLogin,
+  // brandLogin,
   refresh,
   // refreshUserToken,
   // refreshBrandToken,
@@ -13,6 +14,7 @@ const {
   getBrandByEmail,
   updateUserProfile,
   updateBrandProfile,
+  getAllBrands,
 } = require("../controllers/auth");
 
 const {
@@ -24,10 +26,12 @@ const {
 const { errorCheck } = require("../validators/errorCheck");
 
 router.post("/register", validateRegistrationData, errorCheck, register);
-router.post("/login/user", validateLoginData, errorCheck, userLogin);
-router.post("/login/brand", validateLoginData, errorCheck, brandLogin);
+// router.post("/login/user", validateLoginData, errorCheck, userLogin);
+// router.post("/login/brand", validateLoginData, errorCheck, brandLogin);
+router.post("/login", validateLoginData, errorCheck, login);
 router.post("/refresh", validateRefreshToken, errorCheck, refresh);
 router.get("/users", getAllUsers);
+router.get("/brands", getAllBrands);
 router.get("/user/profile", getUserByEmail);
 router.get("/brand/profile", getBrandByEmail);
 router.patch("/user/profile/:email", updateUserProfile);
