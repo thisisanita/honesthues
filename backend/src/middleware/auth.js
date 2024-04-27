@@ -12,7 +12,6 @@ const userAuth = (req, res, next) => {
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.ACCESS_SECRET);
-      console.log(decoded);
       req.decoded = decoded;
       next();
     } catch (error) {
@@ -36,8 +35,12 @@ const brandAuth = (req, res, next) => {
     try {
       const decoded = jwt.verify(token, process.env.ACCESS_SECRET);
       console.log(decoded);
-      req.decoded = decoded;
-      next();
+      if (decoded.role === "brand") {
+        req.decoded = decoded;
+        next();
+      } else {
+        throw new Error();
+      }
     } catch (error) {
       return res.status(401).json({ status: "error", msg: "not authorised" });
     }
