@@ -14,36 +14,42 @@ function App() {
   // const [userType, setUserType] = useState("");
   const [role, setRole] = useState("");
   const [email, setEmail] = useState("");
-
+  const [userId, setUserId] = useState(null);
+  const [brandId, setBrandId] = useState(null);
   const userCtx = useContext(UserContext);
 
-  // // Simulate fetching user type and access token from storage or API
-  // useEffect(() => {
-  //   // Example: Fetching user type and access token from local storage
-  //   const storedUserType = localStorage.getItem("userType");
-  //   const storedAccessToken = localStorage.getItem("accessToken");
+  const login = (id, role) => {
+    if (role === "user") {
+      setUserId(id);
+    } else if (role === "brand") {
+      setBrandId(id);
+    }
+    // Additional logic for login, such as setting tokens or redirecting
+  };
 
-  //   if (storedUserType) {
-  //     setUserType(storedUserType);
-  //   }
-  //   if (storedAccessToken) {
-  //     setAccessToken(storedAccessToken);
-  //   }
-  // }, []);
+  const logout = () => {
+    setUserId(null);
+    setBrandId(null);
+    setRole(""); // Clear the role
+    // Additional logic for logout, such as clearing tokens or redirecting
+  };
 
-  // Redirect logic based on access token and user type
-  // if (accessToken.length > 0) {
-  //   if (role === "brand") {
-  //     return <Navigate to="/brand-site" />;
-  //   } else if (role === "user") {
-  //     return <Navigate to="/campaigns" />;
-  //   }
-  // }
-
-  // If there's no access token or user type, redirect to the login page
   return (
     <UserContext.Provider
-      value={{ accessToken, setAccessToken, role, setRole, email, setEmail }}
+      value={{
+        accessToken,
+        setAccessToken,
+        role,
+        setRole,
+        email,
+        setEmail,
+        userId,
+        setUserId,
+        brandId,
+        setBrandId,
+        login,
+        logout,
+      }}
     >
       {/* {accessToken.length > 0 && <Navigate to="/campaigns"></Navigate>} */}
       <Routes>

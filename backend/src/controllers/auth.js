@@ -75,7 +75,8 @@ const login = async (req, res) => {
 
     const claims = {
       email: user.email,
-      role: userType, // Use the userType from the request body as the role
+      role: userType,
+      id: user.id, // Use the userType from the request body as the role
     };
 
     const access = jwt.sign(claims, process.env.ACCESS_SECRET, {

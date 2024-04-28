@@ -15,6 +15,30 @@ const Login = () => {
   const [userType, setUserType] = useState(""); // State to hold the selected user type
   const navigate = useNavigate();
 
+  // const assignCreditstoWallet = async () => {
+  //   try {
+  //     const res = await fetchData(
+  //       "/api/user/wallet",
+  //       "POST",
+  //       {
+  //         email: userCtx.email,
+  //       },
+  //       userCtx.accessToken
+  //     );
+  //     console.log("Response:", res); // Debugging
+
+  //     if (res.ok) {
+  //       console.log("Successfully submitted request");
+  //     } else {
+  //       console.error("Error submitting request:", res.status, res.statusText);
+  //       console.log(res.data);
+  //     }
+  //   } catch (error) {
+  //     alert(JSON.stringify(error));
+  //     console.log(error);
+  //   }
+  // };
+
   const handleLogin = async () => {
     const body = {
       email,
@@ -32,6 +56,12 @@ const Login = () => {
       // userCtx.setUserType(userType); // Set user type based on the selection
       userCtx.setRole(decoded.role); // Assuming the decoded token contains a 'role' property
       // Redirect or perform other actions after successful login
+      userCtx.setUserId(decoded.id);
+      userCtx.setEmail(decoded.email);
+
+      // THINK NEED TO DO THE ASSIGNMENT OF CREDITS HERE
+
+      // console.log(decoded.id);
       navigate("/campaigns");
     } else {
       alert(JSON.stringify(res.data));

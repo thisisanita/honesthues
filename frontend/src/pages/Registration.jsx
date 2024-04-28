@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import useFetch from "../hooks/useFetch";
-// import UserContext from "../context/user";
+import UserContext from "../context/user";
 import DropDown from "../components/DropDown";
 import Input from "../components/Input";
 import Button from "../components/Button";
 
 const Registration = (props) => {
   const fetchData = useFetch();
-  //   const userCtx = useContext(UserContext);
+  const userCtx = useContext(UserContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -17,6 +17,30 @@ const Registration = (props) => {
   const [contactPerson, setContactPerson] = useState("");
   const [website, setWebsite] = useState("");
   const [address, setAddress] = useState("");
+
+  // const assignCreditstoWallet = async () => {
+  //   try {
+  //     const res = await fetchData(
+  //       "/api/user/wallet",
+  //       "POST",
+  //       {
+  //         email: userCtx.email,
+  //       },
+  //       userCtx.accessToken
+  //     );
+  //     console.log("Response:", res); // Debugging
+
+  //     if (res.ok) {
+  //       console.log("Successfully submitted request");
+  //     } else {
+  //       console.error("Error submitting request:", res.status, res.statusText);
+  //       console.log(res.data);
+  //     }
+  //   } catch (error) {
+  //     alert(JSON.stringify(error));
+  //     console.log(error);
+  //   }
+  // };
 
   const handleRegistration = async () => {
     const body = {

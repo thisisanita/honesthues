@@ -11,9 +11,13 @@ const CampaignDetail = (props) => {
   const [campaignRequests, setCampaignRequests] = useState({});
   const [productShadesArray, setProductShadesArray] = useState([]);
   const [selectedShade, setSelectedShade] = useState("");
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const userCtx = useContext(UserContext);
-
+  const userEmail = userCtx.email;
+  console.log(userCtx.email);
+  const userId = userCtx.userId;
+  console.log(userId);
   const fetchData = useFetch();
   console.log(campaignDetails.campaign_name);
   // const productShades = campaignDetails.product_shades;
@@ -71,6 +75,63 @@ const CampaignDetail = (props) => {
     }
   };
 
+  const createRequestForCampaign = async () => {
+    try {
+      const res = await fetchData(
+        "/api/requests",
+        "POST",
+        {
+          userId: userId,
+          campaignId: campaignId,
+          received: false,
+        },
+        userCtx.accessToken
+      );
+      console.log("Response:", res); // Debugging
+
+      if (res.ok) {
+        console.log("Successfully submitted request");
+      } else {
+        console.error("Error submitting request:", res.status, res.statusText);
+        console.log(res.data);
+      }
+    } catch (error) {
+      alert(JSON.stringify(error));
+      console.log(error);
+    }
+  };
+
+  const deductCreditsFromWallet = async () => {
+    try {
+      const res = await fetchData(
+        "/api/user/wallet",
+        "PATCH",
+        {
+          email: userEmail,
+          operation: "subtract",
+          amount: campaignDetails.campaign_credit,
+        },
+        userCtx.accessToken
+      );
+      if (res.ok) {
+        console.log("Successfully edited credits");
+      } else {
+        console.error("Error submitting request:", res.status, res.statusText);
+        console.log(res.data);
+      }
+    } catch (error) {
+      alert(JSON.stringify(error));
+      console.log(error);
+    }
+  };
+
+  const handleRequestClick = async () => {
+    await createRequestForCampaign();
+    await deductCreditsFromWallet();
+    await getCampaignRequests();
+    setIsButtonDisabled(true);
+  };
+
   useEffect(() => {
     getCampaignDetails();
     getCampaignRequests();
@@ -88,6 +149,7 @@ const CampaignDetail = (props) => {
       <h1>{campaignDetails.campaign_name}</h1>
       <h1>{campaignDetails.campaign_description}</h1>
       <h1>{campaignDetails.product_shades}</h1>
+      <h1>{campaignDetails.product_shades}</h1>
 
       {/* <h1>{props.totalCampaignRequests}</h1> */}
       <h1>{campaignRequests.totalRequests}</h1>
@@ -98,7 +160,9 @@ const CampaignDetail = (props) => {
         options={productShadesArray}
         onChange={(e) => setSelectedShade(e.target.value)}
       ></DropDown>
-      <Button>Request Sample</Button>
+      <Button disabled={isButtonDisabled} onClick={handleRequestClick}>
+        Request Sample
+      </Button>
     </div>
   );
 };
