@@ -15,6 +15,7 @@ const createCampaign = async (req, res) => {
     product_shades_picture,
     product_ingredients,
     product_instructions,
+    campaign_requests,
   } = req.body;
 
   try {
@@ -30,8 +31,8 @@ const createCampaign = async (req, res) => {
 
     // Then, insert the new campaign with the brand_id
     const campaignQuery = `
-         INSERT INTO campaigns (campaign_picture, campaign_description, campaign_credit, campaign_name, product_name, product_picture, product_description, product_likes, product_shades, product_shades_picture, product_ingredients, product_instructions, brand_id)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+         INSERT INTO campaigns (campaign_picture, campaign_description, campaign_credit, campaign_name, product_name, product_picture, product_description, product_likes, product_shades, product_shades_picture, product_ingredients, product_instructions, campaign_requests, brand_id)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
          RETURNING *
        `;
     const campaignResult = await pool.query(campaignQuery, [
@@ -47,6 +48,7 @@ const createCampaign = async (req, res) => {
       product_shades_picture,
       product_ingredients,
       product_instructions,
+      campaign_requests,
       brandId,
     ]);
 
@@ -59,7 +61,12 @@ const createCampaign = async (req, res) => {
 
 const getAllCampaigns = async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM campaigns ORDER BY id ASC");
+    const result = await pool.query(`
+      SELECT campaigns.*, brands.name
+      FROM campaigns
+      INNER JOIN brands ON campaigns.brand_id = brands.id
+      ORDER BY campaigns.id ASC
+    `);
     res.status(200).json(result.rows);
   } catch (error) {
     throw error;
@@ -137,6 +144,25 @@ const getCampaignsByEmail = async (req, res) => {
   }
 };
 
+const getCampaignById = async (req, res) => {
+  const campaignId = req.params.campaignId;
+
+  try {
+    const result = await pool.query("SELECT * FROM campaigns WHERE id = $1", [
+      campaignId,
+    ]);
+
+    if (result.rows.length > 0) {
+      res.status(200).json(result.rows[0]);
+    } else {
+      res.status(404).json({ message: "Campaign not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 const deleteCampaign = async (req, res) => {
   const campaignId = req.body.id;
 
@@ -186,4 +212,5 @@ module.exports = {
   updateCampaign,
   getCampaignsByEmail,
   deleteCampaign,
+  getCampaignById,
 };

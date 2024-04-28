@@ -60,29 +60,68 @@ const createRequest = async (req, res) => {
 };
 
 const getRequestsByCampaign = async (req, res) => {
-  const campaignId = req.body.campaignId;
+  const campaignId = req.params.campaignId;
 
   try {
-    // Construct the SELECT query
+    // Construct the SELECT query using COUNT() to get the total number of requests
     const selectQuery = `
-         SELECT * FROM requests
-         WHERE campaign_id = $1
-       `;
+       SELECT COUNT(*) as totalRequests
+       FROM requests
+       WHERE campaign_id = $1
+     `;
 
     const result = await pool.query(selectQuery, [campaignId]);
 
-    if (result.rowCount === 0) {
+    console.log("Result:", result.rows); // Add this line for logging
+
+    if (result.rows.length === 0 || result.rows[0].totalRequests === null) {
       return res
         .status(404)
         .json({ error: "No requests found for this campaign" });
     }
 
-    res.status(200).json(result.rows);
+    // Extract the totalRequests from the first row of the result
+    const totalRequests = result.rows[0].totalrequests;
+
+    console.log("Total Requests:", totalRequests); // Add this line for logging
+
+    if (typeof totalRequests === "undefined") {
+      return res.status(500).json({ error: "Failed to fetch total requests" });
+    }
+
+    res.status(200).json({ totalRequests: totalRequests }); // Stringify totalRequests
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to fetch requests" });
+    res
+      .status(500)
+      .json({ error: "Failed to fetch requests", details: err.message });
   }
 };
+
+// const getRequestsByCampaign = async (req, res) => {
+//   const campaignId = req.params.campaignId;
+
+//   try {
+//     // Construct the SELECT query
+//     const selectQuery = `
+//          SELECT * FROM requests
+//          WHERE campaign_id = $1
+//        `;
+
+//     const result = await pool.query(selectQuery, [campaignId]);
+
+//     if (result.rowCount === 0) {
+//       return res
+//         .status(404)
+//         .json({ error: "No requests found for this campaign" });
+//     }
+
+//     res.status(200).json(result.rows);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Failed to fetch requests" });
+//   }
+// };
 
 const getRequestsByUser = async (req, res) => {
   const userId = req.body.userId;

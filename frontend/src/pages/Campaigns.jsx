@@ -1,13 +1,15 @@
 import React, { useState, useContext, useEffect } from "react";
-import Campaign from "../components/Campaign";
+import CampaignCard from "../components/CampaignCard";
 import UserContext from "../context/user";
 import useFetch from "../hooks/useFetch";
+import CampaignDetail from "./CampaignDetail";
 
 const Campaigns = () => {
   const userCtx = useContext(UserContext);
   const fetchData = useFetch();
 
   const [campaigns, setCampaigns] = useState([]);
+  console.log(userCtx.accessToken);
 
   const getAllCampaigns = async () => {
     try {
@@ -28,8 +30,8 @@ const Campaigns = () => {
         console.log(res.data);
       }
     } catch (error) {
-      alert(JSON.stringify(res.data));
-      console.log(res.data);
+      alert(JSON.stringify(error));
+      console.log(error);
     }
   };
 
@@ -39,23 +41,30 @@ const Campaigns = () => {
 
   return (
     <div>
-      <h1>hi</h1>
-      {/* {campaigns.map((campaign) => {
-        <Campaign
-          key={campaign.id}
-          id={campaign.id}
-          campaign_picture={campaign.campaign_picture}
-          campaign_description={campaign.campaign_description}
-          campaign_credit={campaign.campaign_credit}
-          campaign_name={campaign.campaign_name}
-          product_name={campaign.product_name}
-          product_description={campaign.product_description}
-          product_shades={campaign.product_shades}
-          product_shades_picture={campaign.product_shades_picture}
-          product_ingredients={campaign.product_ingredients}
-          product_instructions={campaign.product_instructions}
-        ></Campaign>;
-      })} */}
+      {/* <h1>hi</h1> */}
+      {campaigns.map((campaign, idx) => {
+        return (
+          <CampaignCard
+            campaign={campaign}
+            index={campaign.idx}
+            key={campaign.id}
+            id={campaign.id}
+            campaignPicture={campaign.campaign_picture}
+            campaignDescription={campaign.campaign_description}
+            campaignCredit={campaign.campaign_credit}
+            campaignName={campaign.campaign_name}
+            productName={campaign.product_name}
+            productDescription={campaign.product_description}
+            productShades={campaign.product_shades}
+            productShadesPicture={campaign.product_shades_picture}
+            productIngredients={campaign.product_ingredients}
+            productInstructions={campaign.product_instructions}
+            brandName={campaign.name}
+            dateTime={campaign.date_time}
+            campaignRequests={campaign.campaign_requests}
+          ></CampaignCard>
+        );
+      })}
     </div>
   );
 };

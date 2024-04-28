@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch"; // Adjust the import path as necessary
 import UserContext from "../context/user";
 import { jwtDecode } from "jwt-decode";
@@ -12,6 +13,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState(""); // State to hold the selected user type
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     const body = {
@@ -30,6 +32,7 @@ const Login = () => {
       // userCtx.setUserType(userType); // Set user type based on the selection
       userCtx.setRole(decoded.role); // Assuming the decoded token contains a 'role' property
       // Redirect or perform other actions after successful login
+      navigate("/campaigns");
     } else {
       alert(JSON.stringify(res.data));
     }

@@ -10,7 +10,7 @@ const { brandAuth, userAuth } = require("../middleware/auth");
 const router = express.Router();
 
 router.post("/requests", userAuth, createRequest);
-router.get("/campaigns/requests", brandAuth, getRequestsByCampaign);
+router.get("/campaigns/:campaignId/requests", userAuth, getRequestsByCampaign);
 router.get("/user/requests", userAuth, getRequestsByUser);
 router.delete("/requests/delete", userAuth, deleteRequest);
 

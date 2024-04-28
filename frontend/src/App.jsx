@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import Campaigns from "./pages/Campaigns";
+import CampaignDetail from "./pages/CampaignDetail";
 import Homepage from "./pages/Homepage";
 import Reviews from "./pages/Reviews";
 import Profile from "./pages/Profile";
@@ -14,7 +15,7 @@ function App() {
   const [role, setRole] = useState("");
   const [email, setEmail] = useState("");
 
-  // const userCtx = useContext(UserContext);
+  const userCtx = useContext(UserContext);
 
   // // Simulate fetching user type and access token from storage or API
   // useEffect(() => {
@@ -31,25 +32,30 @@ function App() {
   // }, []);
 
   // Redirect logic based on access token and user type
-  if (accessToken.length > 0) {
-    if (role === "brand") {
-      return <Navigate to="/brand-site" />;
-    } else if (role === "user") {
-      return <Navigate to="/campaigns" />;
-    }
-  }
+  // if (accessToken.length > 0) {
+  //   if (role === "brand") {
+  //     return <Navigate to="/brand-site" />;
+  //   } else if (role === "user") {
+  //     return <Navigate to="/campaigns" />;
+  //   }
+  // }
 
   // If there's no access token or user type, redirect to the login page
   return (
     <UserContext.Provider
       value={{ accessToken, setAccessToken, role, setRole, email, setEmail }}
     >
+      {/* {accessToken.length > 0 && <Navigate to="/campaigns"></Navigate>} */}
       <Routes>
+        <Route path="/campaigns" element={<Campaigns />}></Route>
+        <Route
+          path="/campaigns/:campaignId"
+          element={<CampaignDetail />}
+        ></Route>
         <Route path="/" element={<Navigate replace to="/login" />}></Route>
         <Route path="homepage" element={<Homepage />}></Route>
         <Route path="login" element={<Login />}></Route>
         <Route path="register" element={<Registration />}></Route>
-        <Route path="campaigns" element={<Campaigns />}></Route>
         <Route path="reviews" element={<Reviews />}></Route>
         <Route path="profile" element={<Profile />}></Route>
         {/* <Route path="*" element={<NotFound />}></Route> */}
