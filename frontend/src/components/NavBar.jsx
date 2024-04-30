@@ -18,6 +18,9 @@ const Navbar = () => {
         <Button color="inherit" component={Link} to="/reviews">
           reviews
         </Button>
+        <Button color="inherit" component={Link} to="/campaigns/create">
+          Create Campaign
+        </Button>
         <Button color="inherit" component={Link} to="/cart">
           Cart
         </Button>

@@ -10,10 +10,43 @@ const CampaignCard = (props) => {
   const fetchData = useFetch();
   const navigate = useNavigate();
   const campaignId = props.id;
+  console.log(campaignId);
   const navigateToCampaignDetail = (campaignId) => {
     console.log("Navigating to campaign detail:", campaignId);
     navigate("/campaigns/" + campaignId);
   };
+
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+
+  const deleteCampaign = async () => {
+    try {
+      const res = await fetchData(
+        "/api/campaigns/" + campaignId + "/delete",
+        "DELETE",
+        undefined,
+        userCtx.accessToken
+      );
+      if (res.ok) {
+        console.log("Successfully deleted request");
+      } else {
+        console.error("Error submitting request:", res.status, res.statusText);
+        console.log(res.data);
+      }
+    } catch (error) {
+      alert(JSON.stringify(error));
+      console.log(error);
+    }
+  };
+
+  const toggleUpdateModal = () => {
+    setShowUpdateModal(!showUpdateModal);
+  };
+
+  const handleRequestDelete = async () => {
+    await deleteCampaign();
+    await props.getBrandCampaigns();
+  };
+
   // const [totalCampaignRequests, setTotalCampaignRequests] = useState({});
 
   // const getTotalCampaignRequests = async () => {
@@ -51,7 +84,9 @@ const CampaignCard = (props) => {
       <h2>{props.id}</h2>
       <h2>{props.campaignName}</h2>
       <p>{props.brandName}</p>
-      <h5>{props.campaignPicture}</h5>
+      <h5>
+        <img src={props.campaignPicture} alt="Campaign Picture" />
+      </h5>
       <p>{props.dateTime}</p>
       <p>{props.campaignRequests}</p>
       <h3>{props.campaignDescription}</h3>
@@ -59,9 +94,17 @@ const CampaignCard = (props) => {
       {/* <CampaignDetail
         totalCampaignRequests={totalCampaignRequests}
       ></CampaignDetail> */}
-      <Button onClick={() => navigateToCampaignDetail(campaignId)}>
-        More Details
-      </Button>
+      {userCtx.role == !"brand" && (
+        <Button onClick={() => navigateToCampaignDetail(campaignId)}>
+          More Details
+        </Button>
+      )}
+      {userCtx.role === "brand" && (
+        <Button onClick={handleRequestDelete}>Delete</Button>
+      )}
+      {userCtx.role === "brand" && (
+        <Button onClick={toggleUpdateModal}>Edit</Button>
+      )}
     </div>
   );
 };

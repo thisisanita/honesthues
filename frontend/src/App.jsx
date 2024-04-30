@@ -11,6 +11,7 @@ import Profile from "./pages/Profile";
 import UserContext from "./context/user";
 import NavBar from "./components/NavBar";
 import Cart from "./pages/Cart";
+import CreateCampaign from "./pages/CreateCampaign";
 
 function App() {
   const [accessToken, setAccessToken] = useState("");
@@ -70,6 +71,7 @@ function App() {
         <Route path="reviews" element={<Reviews />}></Route>
         <Route path="profile" element={<Profile />}></Route>
         <Route path="cart" element={<Cart />}></Route>
+        <Route path="campaigns/create" element={<CreateCampaign />}></Route>
 
         {/* <Route path="*" element={<NotFound />}></Route> */}
         {/* Add other routes as needed */}

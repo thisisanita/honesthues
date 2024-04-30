@@ -177,7 +177,7 @@ const updateCampaign = async (req, res) => {
 };
 
 const getCampaignsByEmail = async (req, res) => {
-  const brandEmail = req.body.email;
+  const brandEmail = req.params.brandEmail;
 
   try {
     // First, find the brand by email
@@ -232,7 +232,7 @@ const getCampaignById = async (req, res) => {
 };
 
 const deleteCampaign = async (req, res) => {
-  const campaignId = req.body.id;
+  const campaignId = req.params.campaignId;
 
   try {
     // First, check for any dependent requests

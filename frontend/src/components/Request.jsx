@@ -20,7 +20,7 @@ const Request = (props) => {
         userCtx.accessToken
       );
       if (res.ok) {
-        console.log("Successfully deleted request");
+        console.log("Successfully deleted campaign");
       } else {
         console.error("Error submitting request:", res.status, res.statusText);
         console.log(res.data);
@@ -89,7 +89,7 @@ const Request = (props) => {
   };
 
   const handleRequestSubmit = async () => {
-    if (props.walletCredits.total_amount > props.campaignCredit) {
+    if (props.walletCredits.total_amount >= props.campaignCredit) {
       await deductCreditsFromWallet();
       await props.creditsFromWallet();
       await setRequestSubmitted();
