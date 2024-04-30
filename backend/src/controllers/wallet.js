@@ -39,7 +39,7 @@ const assignCreditsToWallet = async (req, res) => {
 };
 
 const getWalletByEmail = async (req, res) => {
-  const email = req.body.email;
+  const email = req.params.email;
 
   try {
     // First, find the user by email

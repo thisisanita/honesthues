@@ -58,6 +58,7 @@ const Login = () => {
       // Redirect or perform other actions after successful login
       userCtx.setUserId(decoded.id);
       userCtx.setEmail(decoded.email);
+      // userCtx.setIsLoggedIn(true);
 
       // THINK NEED TO DO THE ASSIGNMENT OF CREDITS HERE
 

@@ -11,7 +11,16 @@ const { brandAuth, userAuth } = require("../middleware/auth");
 
 const router = express.Router();
 
-router.post("/campaigns", brandAuth, createCampaign);
+router.post(
+  "/campaigns",
+  // upload.fields([
+  //   { name: "campaign_picture" },
+  //   { name: "product_picture" },
+  //   { name: "product_shades_picture" },
+  // ]),
+  brandAuth,
+  createCampaign
+);
 router.get("/campaigns", userAuth, getAllCampaigns);
 router.patch("/campaigns", brandAuth, updateCampaign);
 router.get("/brand/campaigns", brandAuth, getCampaignsByEmail);

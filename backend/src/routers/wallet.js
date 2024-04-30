@@ -8,7 +8,7 @@ const { brandAuth, userAuth } = require("../middleware/auth");
 
 const router = express.Router();
 
-router.get("/user/wallet", userAuth, getWalletByEmail);
+router.get("/user/:email/wallet", userAuth, getWalletByEmail);
 router.post("/user/wallet", userAuth, assignCreditsToWallet);
 router.patch("/user/wallet", userAuth, editCreditsInWallet);
 
