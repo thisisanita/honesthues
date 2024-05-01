@@ -12,7 +12,6 @@ const campaigns = require("./src/routers/campaigns");
 const reviews = require("./src/routers/reviews");
 const requests = require("./src/routers/requests");
 const profile = require("./src/routers/profile");
-const multerS3 = require("./src/middleware/multerS3");
 
 const helmet = require("helmet");
 const pool = require("./src/db/db");

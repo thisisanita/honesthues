@@ -10,13 +10,14 @@ const createReview = async (req, res) => {
     review_helpful,
     review_flag,
     review_recommendation,
+    title,
   } = req.body;
 
   try {
     // Construct the INSERT query
     const insertQuery = `
-         INSERT INTO reviews (campaign_id, user_id, rating, details, picture, review_helpful, review_flag, review_recommendation)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+         INSERT INTO reviews (campaign_id, user_id, rating, details, picture, review_helpful, review_flag, review_recommendation, title)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
          RETURNING *
        `;
 
@@ -29,6 +30,7 @@ const createReview = async (req, res) => {
       review_helpful,
       review_flag,
       review_recommendation,
+      title,
     ]);
 
     res.status(201).json(result.rows[0]);
@@ -39,7 +41,7 @@ const createReview = async (req, res) => {
 };
 
 const getReviewsByCampaignId = async (req, res) => {
-  const campaignId = req.body.campaignId;
+  const campaignId = req.params.campaignId;
 
   try {
     // Construct the SELECT query

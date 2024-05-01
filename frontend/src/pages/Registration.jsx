@@ -18,29 +18,23 @@ const Registration = (props) => {
   const [website, setWebsite] = useState("");
   const [address, setAddress] = useState("");
 
-  // const assignCreditstoWallet = async () => {
-  //   try {
-  //     const res = await fetchData(
-  //       "/api/user/wallet",
-  //       "POST",
-  //       {
-  //         email: userCtx.email,
-  //       },
-  //       userCtx.accessToken
-  //     );
-  //     console.log("Response:", res); // Debugging
-
-  //     if (res.ok) {
-  //       console.log("Successfully submitted request");
-  //     } else {
-  //       console.error("Error submitting request:", res.status, res.statusText);
-  //       console.log(res.data);
-  //     }
-  //   } catch (error) {
-  //     alert(JSON.stringify(error));
-  //     console.log(error);
-  //   }
-  // };
+  const assignCreditstoWallet = async () => {
+    // Check if the user's role is "user"
+    if (userType === "user") {
+      const body = {
+        email: email,
+      };
+      const res = await fetchData("/auth/user/wallet", "POST", body);
+      if (res.ok) {
+        console.log("Successfully assigned credits to user's wallet.");
+      } else {
+        console.error("Error assigning credits:", res.status, res.statusText);
+        console.log(res.data);
+      }
+    } else {
+      console.log("Credits not assigned. User role is not 'user'.");
+    }
+  };
 
   const handleRegistration = async () => {
     const body = {
@@ -66,6 +60,7 @@ const Registration = (props) => {
       setContactPerson("");
       setWebsite("");
       setAddress("");
+      assignCreditstoWallet();
     } else {
       console.log(res.data);
     }
@@ -110,6 +105,15 @@ const Registration = (props) => {
         value={contact}
         onChange={(e) => setContact(e.target.value)}
       ></Input>
+      {userType !== "brand" && (
+        <DropDown
+          labelId="gender-select-label"
+          label="gender"
+          value={userType}
+          options={["user", "brand"]}
+          onChange={(e) => setUserType(e.target.value)}
+        ></DropDown>
+      )}
       {userType === "brand" && (
         <>
           <Input

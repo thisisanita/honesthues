@@ -24,7 +24,7 @@ router.post(
 router.get("/campaigns", userAuth, getAllCampaigns);
 router.patch("/campaigns", brandAuth, updateCampaign);
 router.get("/campaigns/:brandEmail", brandAuth, getCampaignsByEmail);
-router.get("/campaigns/:campaignId", userAuth, getCampaignById);
+router.get("/campaigns/:campaignId/detail", userAuth, getCampaignById);
 router.delete("/campaigns/:campaignId/delete", brandAuth, deleteCampaign);
 
 module.exports = router;

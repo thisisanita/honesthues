@@ -56,7 +56,7 @@ function App() {
       }}
     >
       {/* {accessToken.length > 0 && <Navigate to="/campaigns"></Navigate>} */}
-      <NavBar />
+      {userId || accessToken.length > 0 ? <NavBar /> : null}
       <Routes>
         <Route path="/campaigns" element={<Campaigns />}></Route>
         <Route
@@ -71,8 +71,13 @@ function App() {
         <Route path="reviews" element={<Reviews />}></Route>
         <Route path="profile" element={<Profile />}></Route>
         <Route path="cart" element={<Cart />}></Route>
-        <Route path="campaigns/create" element={<CreateCampaign />}></Route>
-
+        <Route
+          path="campaigns/create"
+          element={
+            role === "brand" ? <CreateCampaign /> : <Navigate to="/login" />
+          }
+        />
+        <Route path="*" element={<Navigate to="/login" />} />
         {/* <Route path="*" element={<NotFound />}></Route> */}
         {/* Add other routes as needed */}
         <Route path="*" element={<Navigate to="/login" />} />

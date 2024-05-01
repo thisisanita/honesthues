@@ -122,5 +122,6 @@ yarn-debug.log*
 # Ignore vite distribution
 dist/
 
+
 .idea/
 .vscode/

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch"; // Adjust the import path as necessary
 import UserContext from "../context/user";
@@ -6,6 +6,9 @@ import { jwtDecode } from "jwt-decode";
 import Button from "../components/Button";
 import DropDown from "../components/DropDown";
 import Input from "../components/Input";
+import { Container } from "@mui/material";
+import { Box } from "@mui/material";
+import { Stack } from "@mui/material";
 
 const Login = () => {
   const fetchData = useFetch();
@@ -25,8 +28,6 @@ const Login = () => {
   //       },
   //       userCtx.accessToken
   //     );
-  //     console.log("Response:", res); // Debugging
-
   //     if (res.ok) {
   //       console.log("Successfully submitted request");
   //     } else {
@@ -58,6 +59,7 @@ const Login = () => {
       // Redirect or perform other actions after successful login
       userCtx.setUserId(decoded.id);
       userCtx.setEmail(decoded.email);
+      // assignCreditstoWallet();
       // userCtx.setIsLoggedIn(true);
 
       // THINK NEED TO DO THE ASSIGNMENT OF CREDITS HERE
@@ -68,31 +70,66 @@ const Login = () => {
       alert(JSON.stringify(res.data));
     }
   };
+
+  // useEffect(() => {
+  //   if (userCtx.role === "user") {
+  //     assignCreditstoWallet();
+  //   }
+  // }, [userCtx.accessToken]);
+
   return (
-    <div>
-      <DropDown
-        labelId="usertype-select-label"
-        label="User Type"
-        value={userType}
-        options={["user", "brand"]}
-        onChange={(e) => setUserType(e.target.value)}
-      ></DropDown>
-      <Input
-        label="Email"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      ></Input>
-      <Input
-        label="Password"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      ></Input>
-      <Button variant="contained" color="primary" onClick={handleLogin}>
-        Login
-      </Button>
-    </div>
+    <>
+      <br />
+      <Container>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          height="600px"
+        >
+          <Stack
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            spacing={2}
+            // margin="16px"
+            width="500px"
+          >
+            {/* <img className="banner" src={virtualWoof} alt="virtualWoof" /> */}
+            <DropDown
+              labelId="usertype-select-label"
+              label="User Type"
+              value={userType}
+              options={["user", "brand"]}
+              onChange={(e) => setUserType(e.target.value)}
+              fullWidth
+            ></DropDown>
+            <Input
+              label="Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              fullWidth
+            ></Input>
+            <Input
+              label="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              fullWidth
+            ></Input>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleLogin}
+              fullWidth
+            >
+              Login
+            </Button>
+          </Stack>
+        </Box>
+      </Container>
+    </>
   );
 };
 

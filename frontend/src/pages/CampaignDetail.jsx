@@ -20,6 +20,7 @@ const CampaignDetail = (props) => {
   console.log(userId);
   const fetchData = useFetch();
   console.log(campaignDetails.campaign_name);
+  console.log(userCtx.accessToken);
   // const [walletCredits, setWalletCredits] = useState({});
 
   // const productShades = campaignDetails.product_shades;
@@ -30,7 +31,7 @@ const CampaignDetail = (props) => {
   const getCampaignDetails = async () => {
     try {
       const res = await fetchData(
-        "/api/campaigns/" + campaignId,
+        "/api/campaigns/" + campaignId + "/detail",
         undefined,
         undefined,
         userCtx.accessToken

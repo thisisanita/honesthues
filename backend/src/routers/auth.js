@@ -15,6 +15,7 @@ const {
   updateUserProfile,
   updateBrandProfile,
   getAllBrands,
+  assignCreditsToWallet,
 } = require("../controllers/auth");
 
 const {
@@ -36,6 +37,7 @@ router.get("/user/profile", getUserByEmail);
 router.get("/brand/profile", getBrandByEmail);
 router.patch("/user/profile/:email", updateUserProfile);
 router.patch("/brand/profile/:email", updateBrandProfile);
+router.post("/user/wallet", assignCreditsToWallet);
 
 // router.post("/refresh/user", refreshUserToken);
 module.exports = router;

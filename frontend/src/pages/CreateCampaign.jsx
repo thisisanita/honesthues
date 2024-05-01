@@ -3,6 +3,7 @@ import CampaignCard from "../components/CampaignCard";
 import UserContext from "../context/user";
 import useFetch from "../hooks/useFetch";
 import Button from "../components/Button";
+import CampaignModal from "../components/CampaignModal";
 
 const CreateCampaign = () => {
   const userCtx = useContext(UserContext);
@@ -10,7 +11,19 @@ const CreateCampaign = () => {
   const brandEmail = userCtx.email;
 
   const [campaignsByBrand, setCampaignsByBrand] = useState([]);
-  console.log(userCtx.accessToken);
+  const [showCampaignModal, setShowCampaignModal] = useState(false);
+  //   const [editingCampaign, setEditingCampaign] = useState(null);
+
+  const toggleCampaignModal = () => {
+    setShowCampaignModal(!showCampaignModal);
+  };
+
+  //   const handleEditCampaign = (campaign) => {
+  //     setEditingCampaign(campaign);
+  //     toggleCampaignModal();
+  //   };
+
+  //   console.log(userCtx.accessToken);
 
   const getBrandCampaigns = async () => {
     try {
@@ -35,57 +48,25 @@ const CreateCampaign = () => {
     }
   };
 
-  var myWidget = cloudinary.createUploadWidget(
-    {
-      cloudName: "dttapcv2c",
-      uploadPreset: "xmooqktl",
-    },
-    (error, result) => {
-      if (!error && result && result.event === "success") {
-        console.log("Done! Here is the image info:", result.info);
-      }
-    }
-  );
-
-  useEffect(() => {
-    // Assuming myWidget is defined and available in this scope
-    const uploadWidget = document.getElementById("upload_widget");
-
-    const handleClick = () => {
-      myWidget.open();
-    };
-
-    if (uploadWidget) {
-      uploadWidget.addEventListener("click", handleClick, false);
-    }
-
-    // Cleanup function to remove the event listener
-    return () => {
-      if (uploadWidget) {
-        uploadWidget.removeEventListener("click", handleClick, false);
-      }
-    };
-  }, []); // Empty dependency array means this effect runs once on mount and cleanup on unmount
-
-  //   document.getElementById("upload_widget").addEventListener(
-  //     "click",
-  //     function () {
-  //       myWidget.open();
-  //     },
-  //     false
-  //   );
   useEffect(() => {
     getBrandCampaigns();
   }, []);
 
   return (
     <div>
-      <h1>Upload Widget</h1>
       <div>
-        <button id="upload_widget" className="cloudinary-button">
-          Upload Files
-        </button>
-        <Button>Create Campaign</Button>
+        <Button onClick={toggleCampaignModal}>Create Campaign</Button>
+
+        {showCampaignModal && (
+          <CampaignModal
+            getBrandCampaigns={getBrandCampaigns}
+            toggleCampaignModal={toggleCampaignModal}
+            showCampaignModal={showCampaignModal}
+            setShowCampaignModal={setShowCampaignModal}
+            // mode={editingCampaign ? "edit" : "create"}
+            // campaignData={editingCampaign || {}}
+          />
+        )}
 
         {campaignsByBrand.map((campaign, idx) => {
           return (
@@ -108,6 +89,8 @@ const CreateCampaign = () => {
               brandName={campaign.name}
               dateTime={campaign.date_time}
               campaignRequests={campaign.campaign_requests}
+              toggleCampaignModal={toggleCampaignModal}
+              // handleEditCampaign={handleEditCampaign}
             ></CampaignCard>
           );
         })}

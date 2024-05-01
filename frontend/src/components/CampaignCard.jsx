@@ -10,13 +10,11 @@ const CampaignCard = (props) => {
   const fetchData = useFetch();
   const navigate = useNavigate();
   const campaignId = props.id;
-  console.log(campaignId);
+  // console.log(campaignId);
   const navigateToCampaignDetail = (campaignId) => {
     console.log("Navigating to campaign detail:", campaignId);
     navigate("/campaigns/" + campaignId);
   };
-
-  const [showUpdateModal, setShowUpdateModal] = useState(false);
 
   const deleteCampaign = async () => {
     try {
@@ -38,14 +36,43 @@ const CampaignCard = (props) => {
     }
   };
 
-  const toggleUpdateModal = () => {
-    setShowUpdateModal(!showUpdateModal);
-  };
-
   const handleRequestDelete = async () => {
     await deleteCampaign();
     await props.getBrandCampaigns();
   };
+
+  // const updateCampaign = async () => {
+  //   try {
+  //     const res = await fetchData(
+  //       "/api/campaigns/",
+  //       "PATCH",
+  //       {
+  //         id: campaignId,
+  //         campaign_name: campaignName,
+  //         campaign_picture: campaignPicture,
+  //         campaign_description: campaignDescription,
+  //         campaign_credit: campaignCredit,
+  //         campaign_requests: campaignRequests,
+  //         product_name: productName,
+  //         product_picture: productPicture,
+  //         product_description: productDescription,
+  //         product_shades: productShades,
+  //         product_ingredients: productIngredients,
+  //         product_instructions: productInstructions,
+  //       },
+  //       userCtx.accessToken
+  //     );
+
+  //     if (res.ok) {
+  //       console.log("Successfully updated campaign");
+  //     } else {
+  //       console.error("Error updating campaign:", res.status, res.statusText);
+  //     }
+  //   } catch (error) {
+  //     alert(JSON.stringify(error));
+  //     console.log(error);
+  //   }
+  // };
 
   // const [totalCampaignRequests, setTotalCampaignRequests] = useState({});
 
@@ -75,7 +102,7 @@ const CampaignCard = (props) => {
   // };
 
   // useEffect(() => {
-  //   // getCampaignDetails();
+  //   getCampaignDetails();
   //   getTotalCampaignRequests();
   // }, []);
 
@@ -94,7 +121,7 @@ const CampaignCard = (props) => {
       {/* <CampaignDetail
         totalCampaignRequests={totalCampaignRequests}
       ></CampaignDetail> */}
-      {userCtx.role == !"brand" && (
+      {userCtx.role === "user" && (
         <Button onClick={() => navigateToCampaignDetail(campaignId)}>
           More Details
         </Button>
@@ -103,7 +130,9 @@ const CampaignCard = (props) => {
         <Button onClick={handleRequestDelete}>Delete</Button>
       )}
       {userCtx.role === "brand" && (
-        <Button onClick={toggleUpdateModal}>Edit</Button>
+        <Button onClick={() => props.handleEditCampaign(props.campaign)}>
+          Edit
+        </Button>
       )}
     </div>
   );
