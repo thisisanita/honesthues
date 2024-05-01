@@ -62,6 +62,7 @@ function App() {
         {userId || accessToken.length > 0 ? <NavBar /> : null}
         <Routes>
           <Route path="/campaigns" element={<Campaigns />}></Route>
+          {/* <Route path="/create" element={<CreateCampaign />}></Route> */}
           <Route
             path="/campaigns/:campaignId"
             element={<CampaignDetail />}

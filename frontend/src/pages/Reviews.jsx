@@ -56,7 +56,7 @@ const Reviews = () => {
             productName={product.product_name}
             productDescription={product.product_description}
             productShades={product.product_shades}
-            productShadesPicture={product.product_shades_picture}
+            productPicture={product.product_picture}
             productIngredients={product.product_ingredients}
             productInstructions={product.product_instructions}
             brandName={product.name}

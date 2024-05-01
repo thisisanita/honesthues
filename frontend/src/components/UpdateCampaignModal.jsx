@@ -38,18 +38,18 @@ const UpdateCampaignModal = (props) => {
         userCtx.accessToken
       );
       if (res.ok) {
-        setCampaignById(res.data);
-        setUpdateCampaignName(campaignById.campaign_name);
-        setUpdateCampaignPicture(campaignById.campaign_picture);
-        setUpdateCampaignDescription(campaignById.campaign_description);
-        setUpdateCampaignCredit(campaignById.campaign_credit);
-        setUpdateCampaignRequests(campaignById.campaign_requests);
-        setUpdateProductName(campaignById.product_name);
-        setUpdateProductPicture(campaignById.product_picture);
-        setUpdateProductDescription(campaignById.product_description);
-        setUpdateProductShades(campaignById.product_shades);
-        setUpdateProductIngredients(campaignById.product_ingredients);
-        setUpdateProductInstructions(campaignById.product_instructions);
+        // setCampaignById(res.data);
+        setUpdateCampaignName(res.data.campaign_name);
+        setUpdateCampaignPicture(res.data.campaign_picture);
+        setUpdateCampaignDescription(res.data.campaign_description);
+        setUpdateCampaignCredit(res.data.campaign_credit);
+        setUpdateCampaignRequests(res.data.campaign_requests);
+        setUpdateProductName(res.data.product_name);
+        setUpdateProductPicture(res.data.product_picture);
+        setUpdateProductDescription(res.data.product_description);
+        setUpdateProductShades(res.data.product_shades);
+        setUpdateProductIngredients(res.data.product_ingredients);
+        setUpdateProductInstructions(res.data.product_instructions);
       } else {
         console.error(
           "Error fetching campaign details:",
@@ -68,18 +68,18 @@ const UpdateCampaignModal = (props) => {
         "/api/campaigns/",
         "PATCH",
         {
-          id: props.id,
-          campaign_name: campaignName,
-          campaign_picture: campaignPicture,
-          campaign_description: campaignDescription,
-          campaign_credit: campaignCredit,
-          campaign_requests: campaignRequests,
-          product_name: productName,
-          product_picture: productPicture,
-          product_description: productDescription,
-          product_shades: productShades,
-          product_ingredients: productIngredients,
-          product_instructions: productInstructions,
+          id: campaignId,
+          campaign_name: updateCampaignName,
+          campaign_picture: updateCampaignPicture,
+          campaign_description: updateCampaignDescription,
+          campaign_credit: updateCampaignCredit,
+          campaign_requests: updateCampaignRequests,
+          product_name: updateProductName,
+          product_picture: updateProductPicture,
+          product_description: updateProductDescription,
+          product_shades: updateProductShades,
+          product_ingredients: updateProductIngredients,
+          product_instructions: updateProductInstructions,
         },
         userCtx.accessToken
       );
@@ -108,12 +108,8 @@ const UpdateCampaignModal = (props) => {
   const handleUpdateCampaign = async () => {
     await updateCampaign();
     await props.getBrandCampaigns();
-    props.toggleUpdateCampaignModal;
+    props.toggleUpdateCampaignModal();
   };
-
-  useEffect(() => {
-    fetchCampaignDetails();
-  }, [props.campaignId]);
 
   useEffect(() => {
     if (!updateCampaignUploadRef.current) {
@@ -124,7 +120,7 @@ const UpdateCampaignModal = (props) => {
         },
         (error, result) => {
           if (!error && result && result.event === "success") {
-            setCampaignPicture(result.info.secure_url);
+            setUpdateCampaignPicture(result.info.secure_url);
           }
         }
       );
@@ -151,7 +147,7 @@ const UpdateCampaignModal = (props) => {
         },
         (error, result) => {
           if (!error && result && result.event === "success") {
-            setProductPicture(result.info.secure_url);
+            setUpdateProductName(result.info.secure_url);
           }
         }
       );
@@ -167,6 +163,10 @@ const UpdateCampaignModal = (props) => {
 
       updateProductUploadRef.current = uploadButton;
     }
+  }, []);
+
+  useEffect(() => {
+    fetchCampaignDetails();
   }, []);
 
   return (

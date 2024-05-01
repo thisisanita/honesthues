@@ -10,7 +10,7 @@ const {
 
 const { brandAuth, userAuth } = require("../middleware/auth");
 
-router.get("/profile/user", userAuth, getUserByEmail);
+router.get("/profile/user/:email", userAuth, getUserByEmail);
 router.get("/profile/brand", brandAuth, getBrandByEmail);
 router.patch("/profile/user/edit", userAuth, updateUserProfile);
 router.patch("/profile/brand/edit", brandAuth, updateBrandProfile);

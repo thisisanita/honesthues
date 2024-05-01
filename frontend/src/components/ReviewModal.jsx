@@ -22,6 +22,7 @@ const ReviewModal = (props) => {
   const [recommendation, setRecommendation] = useState(false);
   const userId = userCtx.id;
   const reviewUploadRef = useRef(null);
+  const [userDetails, setUserDetails] = useState({});
 
   const handleRecommendedToggle = (event, newRecommend) => {
     setRecommendation(newRecommend);

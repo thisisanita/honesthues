@@ -55,28 +55,27 @@ const Login = () => {
       const decoded = jwtDecode(res.data.access); // Decode access token to get your claims
       console.log(decoded); // Log decoded token to console
 
-      // userCtx.setUserType(userType); // Set user type based on the selection
       userCtx.setRole(decoded.role); // Assuming the decoded token contains a 'role' property
-      // Redirect or perform other actions after successful login
       userCtx.setUserId(decoded.id);
       userCtx.setEmail(decoded.email);
-      // assignCreditstoWallet();
-      // userCtx.setIsLoggedIn(true);
 
-      // THINK NEED TO DO THE ASSIGNMENT OF CREDITS HERE
-
-      // console.log(decoded.id);
-      navigate("/campaigns");
+      // if (userCtx.role === "user") {
+      //   navigate("/campaigns");
+      // } else if (userCtx.role === "brand") {
+      //   navigate("/campaigns/create");
+      // }
     } else {
       alert(JSON.stringify(res.data));
     }
   };
 
-  // useEffect(() => {
-  //   if (userCtx.role === "user") {
-  //     assignCreditstoWallet();
-  //   }
-  // }, [userCtx.accessToken]);
+  useEffect(() => {
+    if (userCtx.role === "user") {
+      navigate("/campaigns");
+    } else if (userCtx.role === "brand") {
+      navigate("/campaigns/create");
+    }
+  }, [userCtx.accessToken]);
 
   return (
     <>

@@ -1,7 +1,7 @@
 const { pool } = require("../db/db");
 
 const getUserByEmail = async (req, res) => {
-  const email = req.body.email;
+  const email = req.params.email;
   const query = "SELECT * FROM users WHERE lower(email) = lower($1)";
   const values = [email];
   try {

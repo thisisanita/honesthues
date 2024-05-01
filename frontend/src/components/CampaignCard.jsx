@@ -145,6 +145,10 @@ const CampaignCard = (props) => {
           </Typography>
           <br />
           <Typography variant="body2" color="text.secondary">
+            Credit: {props.campaignCredit}
+          </Typography>
+          <br />
+          <Typography variant="body2" color="text.secondary">
             {props.campaignDescription}{" "}
           </Typography>
         </CardContent>
