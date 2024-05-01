@@ -4,6 +4,15 @@ import UserContext from "../context/user";
 import useFetch from "../hooks/useFetch";
 import Button from "./Button";
 import CampaignDetail from "../pages/CampaignDetail";
+import {
+  Card,
+  CardMedia,
+  CardContent,
+  Typography,
+  CardActions,
+} from "@mui/material";
+import CardHeader from "@mui/material/CardHeader";
+import UpdateCampaignModal from "./UpdateCampaignModal";
 
 const CampaignCard = (props) => {
   const userCtx = useContext(UserContext);
@@ -14,6 +23,12 @@ const CampaignCard = (props) => {
   const navigateToCampaignDetail = (campaignId) => {
     console.log("Navigating to campaign detail:", campaignId);
     navigate("/campaigns/" + campaignId);
+  };
+
+  const [showUpdateCampaignModal, setShowUpdateCampaignModal] = useState(false);
+
+  const toggleUpdateCampaignModal = () => {
+    setShowUpdateCampaignModal(!showUpdateCampaignModal);
   };
 
   const deleteCampaign = async () => {
@@ -108,7 +123,54 @@ const CampaignCard = (props) => {
 
   return (
     <div>
-      <h2>{props.id}</h2>
+      <Card
+        sx={{
+          width: "400px", // Adjust the width as needed
+          height: "100%",
+          margin: "auto", // Center the card
+        }}
+      >
+        <CardHeader title={props.campaignName} subheader={props.brandName} />
+        <CardMedia
+          component="img"
+          height="30%"
+          // width="100%"
+          image={props.campaignPicture}
+          alt="Campaign Banner"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div"></Typography>
+          <Typography variant="body2" color="text.secondary">
+            Total samples: {props.campaignRequests}
+          </Typography>
+          <br />
+          <Typography variant="body2" color="text.secondary">
+            {props.campaignDescription}{" "}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          {userCtx.role === "user" && (
+            <Button onClick={() => navigateToCampaignDetail(campaignId)}>
+              More Details
+            </Button>
+          )}
+          {userCtx.role === "brand" && (
+            <Button onClick={handleRequestDelete}>Delete</Button>
+          )}
+          {userCtx.role === "brand" && (
+            <Button onClick={toggleUpdateCampaignModal}>Edit</Button>
+          )}
+        </CardActions>
+      </Card>
+      {userCtx.role === "brand" && showUpdateCampaignModal && (
+        <UpdateCampaignModal
+          campaignId={props.id}
+          toggleUpdateCampaignModal={toggleUpdateCampaignModal}
+          getBrandCampaigns={props.getBrandCampaigns}
+        ></UpdateCampaignModal>
+      )}
+
+      {/* <h2>{props.id}</h2>
       <h2>{props.campaignName}</h2>
       <p>{props.brandName}</p>
       <h5>
@@ -121,19 +183,6 @@ const CampaignCard = (props) => {
       {/* <CampaignDetail
         totalCampaignRequests={totalCampaignRequests}
       ></CampaignDetail> */}
-      {userCtx.role === "user" && (
-        <Button onClick={() => navigateToCampaignDetail(campaignId)}>
-          More Details
-        </Button>
-      )}
-      {userCtx.role === "brand" && (
-        <Button onClick={handleRequestDelete}>Delete</Button>
-      )}
-      {userCtx.role === "brand" && (
-        <Button onClick={() => props.handleEditCampaign(props.campaign)}>
-          Edit
-        </Button>
-      )}
     </div>
   );
 };

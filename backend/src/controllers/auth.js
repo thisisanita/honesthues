@@ -14,12 +14,31 @@ const register = async (req, res) => {
     contact_person,
     website,
     address,
+    gender,
+    age_group,
+    skin_tone,
+    skin_type,
+    hair_colour,
+    eye_colour,
   } = req.body;
   const passwordHash = await bcrypt.hash(password, 10);
   let query, values;
   if (userType === "user") {
-    query = `INSERT INTO users (username, password_hash, email, name, contact, address) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
-    values = [username, passwordHash, email, name, contact, address];
+    query = `INSERT INTO users (username, password_hash, email, name, contact, address, gender, age_group, skin_tone, skin_type, hair_colour, eye_colour) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *`;
+    values = [
+      username,
+      passwordHash,
+      email,
+      name,
+      contact,
+      address,
+      gender,
+      age_group,
+      skin_tone,
+      skin_type,
+      hair_colour,
+      eye_colour,
+    ];
   } else if (userType === "brand") {
     query = `INSERT INTO brands (username, password_hash, email, name, contact, address, contact_person, website) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`;
     values = [
