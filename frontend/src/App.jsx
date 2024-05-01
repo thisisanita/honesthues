@@ -12,6 +12,8 @@ import UserContext from "./context/user";
 import NavBar from "./components/NavBar";
 import Cart from "./pages/Cart";
 import CreateCampaign from "./pages/CreateCampaign";
+import { ThemeProvider } from "@mui/material";
+import theme from "../theme";
 
 function App() {
   const [accessToken, setAccessToken] = useState("");
@@ -39,51 +41,56 @@ function App() {
   };
 
   return (
-    <UserContext.Provider
-      value={{
-        accessToken,
-        setAccessToken,
-        role,
-        setRole,
-        email,
-        setEmail,
-        userId,
-        setUserId,
-        brandId,
-        setBrandId,
-        login,
-        logout,
-      }}
-    >
-      {/* {accessToken.length > 0 && <Navigate to="/campaigns"></Navigate>} */}
-      {userId || accessToken.length > 0 ? <NavBar /> : null}
-      <Routes>
-        <Route path="/campaigns" element={<Campaigns />}></Route>
-        <Route
-          path="/campaigns/:campaignId"
-          element={<CampaignDetail />}
-        ></Route>
-        <Route path="/products/:campaignId" element={<ProductDetail />}></Route>
-        <Route path="/" element={<Navigate replace to="/login" />}></Route>
-        <Route path="homepage" element={<Homepage />}></Route>
-        <Route path="login" element={<Login />}></Route>
-        <Route path="register" element={<Registration />}></Route>
-        <Route path="reviews" element={<Reviews />}></Route>
-        <Route path="profile" element={<Profile />}></Route>
-        <Route path="cart" element={<Cart />}></Route>
-        <Route
-          path="campaigns/create"
-          element={
-            role === "brand" ? <CreateCampaign /> : <Navigate to="/login" />
-          }
-        />
-        <Route path="*" element={<Navigate to="/login" />} />
-        {/* <Route path="*" element={<NotFound />}></Route> */}
-        {/* Add other routes as needed */}
-        <Route path="*" element={<Navigate to="/login" />} />
-        {/* Default route */}
-      </Routes>
-    </UserContext.Provider>
+    <ThemeProvider theme={theme}>
+      <UserContext.Provider
+        value={{
+          accessToken,
+          setAccessToken,
+          role,
+          setRole,
+          email,
+          setEmail,
+          userId,
+          setUserId,
+          brandId,
+          setBrandId,
+          login,
+          logout,
+        }}
+      >
+        {/* {accessToken.length > 0 && <Navigate to="/campaigns"></Navigate>} */}
+        {userId || accessToken.length > 0 ? <NavBar /> : null}
+        <Routes>
+          <Route path="/campaigns" element={<Campaigns />}></Route>
+          <Route
+            path="/campaigns/:campaignId"
+            element={<CampaignDetail />}
+          ></Route>
+          <Route
+            path="/products/:campaignId"
+            element={<ProductDetail />}
+          ></Route>
+          <Route path="/" element={<Navigate replace to="/login" />}></Route>
+          <Route path="homepage" element={<Homepage />}></Route>
+          <Route path="login" element={<Login />}></Route>
+          <Route path="register" element={<Registration />}></Route>
+          <Route path="reviews" element={<Reviews />}></Route>
+          <Route path="profile" element={<Profile />}></Route>
+          <Route path="cart" element={<Cart />}></Route>
+          <Route
+            path="campaigns/create"
+            element={
+              role === "brand" ? <CreateCampaign /> : <Navigate to="/login" />
+            }
+          />
+          <Route path="*" element={<Navigate to="/login" />} />
+          {/* <Route path="*" element={<NotFound />}></Route> */}
+          {/* Add other routes as needed */}
+          <Route path="*" element={<Navigate to="/login" />} />
+          {/* Default route */}
+        </Routes>
+      </UserContext.Provider>
+    </ThemeProvider>
   );
 }
 

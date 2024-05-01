@@ -11,6 +11,11 @@ const Input = ({
 }) => {
   return (
     <TextField
+      sx={{
+        "&.MuiInputBase-input": {
+          backgroundColor: "black", // Change the background color of the input box
+        },
+      }}
       label={label}
       value={value}
       onChange={onChange}

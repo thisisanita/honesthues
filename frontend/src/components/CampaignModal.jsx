@@ -221,13 +221,13 @@ const CampaignModal = (props) => {
       ></Input>
       <Input
         label="Campaign Credit"
-        type="text"
+        type="number"
         value={campaignCredit}
         onChange={(e) => setCampaignCredit(e.target.value)}
       ></Input>
       <Input
         label="Total Campaign Requests"
-        type="text"
+        type="number"
         value={campaignRequests}
         onChange={(e) => setCampaignRequests(e.target.value)}
       ></Input>

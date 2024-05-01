@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 const Button = ({
   variant = "contained",
   color = "primary",
+
   type = "button",
   onClick,
   children,
@@ -12,6 +13,13 @@ const Button = ({
 }) => {
   return (
     <MuiButton
+      sx={{
+        borderRadius: "20px",
+        letterSpacing: "3px",
+        padding: "8px",
+        color: "white",
+        fontWeight: "bold",
+      }}
       variant={variant}
       color={color}
       type={type}

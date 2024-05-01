@@ -9,13 +9,14 @@ import Input from "../components/Input";
 import { Container } from "@mui/material";
 import { Box } from "@mui/material";
 import { Stack } from "@mui/material";
+import { FormControl } from "@mui/material";
 
 const Login = () => {
   const fetchData = useFetch();
   const userCtx = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userType, setUserType] = useState(""); // State to hold the selected user type
+  const [userType, setUserType] = useState("user"); // State to hold the selected user type
   const navigate = useNavigate();
 
   // const assignCreditstoWallet = async () => {
