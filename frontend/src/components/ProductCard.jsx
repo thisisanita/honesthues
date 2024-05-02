@@ -18,15 +18,17 @@ const ProductCard = (props) => {
   const fetchData = useFetch();
   const navigate = useNavigate();
   const campaignId = props.id;
+  console.log(campaignId);
+  const [productStats, setProductStats] = useState({});
   const navigateToProductDetail = (campaignId) => {
     console.log("Navigating to product detail:", campaignId);
     navigate("/products/" + campaignId);
   };
-
-  const getAllProducts = async () => {
+  const averageRating = Math.round(productStats.averageRating * 100) / 100;
+  const getProductStats = async () => {
     try {
       const res = await fetchData(
-        "/api/campaigns",
+        "/api/reviews/stats/" + campaignId,
         undefined,
         undefined,
         userCtx.accessToken
@@ -34,11 +36,15 @@ const ProductCard = (props) => {
       console.log("Response:", res); // Debugging
 
       if (res.ok) {
-        setProducts(res.data);
+        setProductStats(res.data);
         JSON.stringify(res.data);
         console.log(res.data);
       } else {
-        console.error("Error fetching products:", res.status, res.statusText);
+        console.error(
+          "Error fetching product stats:",
+          res.status,
+          res.statusText
+        );
         console.log(res.data);
       }
     } catch (error) {
@@ -47,13 +53,20 @@ const ProductCard = (props) => {
     }
   };
 
+  useEffect(() => {
+    getProductStats();
+    // getUserInfo();
+  }, [campaignId]);
+
   return (
-    <>
+    <div>
       <Card
         sx={{
-          width: "400px", // Adjust the width as needed
+          width: "500px", // Adjust the width as needed
           height: "100%",
           margin: "auto", // Center the card
+          borderRadius: "10px",
+          border: "16px",
         }}
       >
         <CardHeader title={props.productName} subheader={props.brandName} />
@@ -65,15 +78,30 @@ const ProductCard = (props) => {
           alt="Campaign Banner"
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Total Reviews
+          <Typography variant="h6" color="text.secondary">
+            Average Product Rating: {averageRating}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body1" color="text.secondary">
+            Total Reviews: {productStats.totalReviews}
+          </Typography>
+          <br></br>
+          <Typography variant="body1" color="text.secondary">
             {props.productDescription}
           </Typography>
         </CardContent>
         <CardActions>
-          <Button onClick={() => navigateToProductDetail(campaignId)}>
+          <Button
+            sx={{
+              borderRadius: "20px",
+              letterSpacing: "3px",
+              padding: "8px",
+              color: "white",
+              fontWeight: "bold",
+              margin: "16px",
+            }}
+            fullWidth
+            onClick={() => navigateToProductDetail(campaignId)}
+          >
             More Details
           </Button>
         </CardActions>
@@ -89,7 +117,7 @@ const ProductCard = (props) => {
       {/* <CampaignDetail
         totalCampaignRequests={totalCampaignRequests}
       ></CampaignDetail> */}
-    </>
+    </div>
   );
 };
 

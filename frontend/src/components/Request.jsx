@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import Button from "./Button";
 import UserContext from "../context/user";
 import useFetch from "../hooks/useFetch";
+import { Stack } from "@mui/material";
 
 const Request = (props) => {
   const userCtx = useContext(UserContext);
@@ -82,10 +83,12 @@ const Request = (props) => {
   };
 
   const handleRequestDelete = async () => {
-    await deleteRequest();
-    await props.getUserRequests();
-
-    // await deductCreditsFromWallet();
+    try {
+      await deleteRequest();
+      await props.getUserRequests();
+    } catch (error) {
+      console.error("Error handling delete request:", error);
+    }
   };
 
   const handleRequestSubmit = async () => {
@@ -106,15 +109,31 @@ const Request = (props) => {
   //   }, []);
 
   return (
-    <div>
+    <div className="wallet">
       {/* <h1> Wallet Amount:{walletCredits.total_amount}</h1> */}
-      <h2>{props.requestId}</h2>
-      <h2>{props.productName}</h2>
-      <h2>{props.productShade}</h2>
-      <p>{props.dateTime}</p>
-      <h5>{props.campaignCredit}</h5>
-      <Button onClick={handleRequestDelete}>Delete</Button>
-      <Button onClick={handleRequestSubmit}>I want this</Button>
+      <h3>{props.productName}</h3>
+      <h4>Shade: {props.productShade}</h4>
+      <h4>Credits: {props.campaignCredit}</h4>
+      <br></br>
+      <Stack direction="row" spacing={2}>
+        <Button
+          sx={{
+            borderRadius: "20px",
+            letterSpacing: "3px",
+            padding: "8px",
+            color: "#CA7DF9",
+            fontWeight: "bold",
+          }}
+          variant="outlined"
+          fullWidth
+          onClick={handleRequestDelete}
+        >
+          Delete
+        </Button>
+        <Button fullWidth onClick={handleRequestSubmit}>
+          I want this
+        </Button>
+      </Stack>
     </div>
   );
 };

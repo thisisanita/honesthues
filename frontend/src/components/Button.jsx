@@ -16,9 +16,10 @@ const Button = ({
       sx={{
         borderRadius: "20px",
         letterSpacing: "3px",
-        padding: "8px",
+        padding: "16px, 32px, 16px, 32px",
         color: "white",
         fontWeight: "bold",
+        // margin: "8px 32px 8px 32px",
       }}
       variant={variant}
       color={color}

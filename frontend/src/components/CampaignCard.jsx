@@ -125,9 +125,11 @@ const CampaignCard = (props) => {
     <div>
       <Card
         sx={{
-          width: "400px", // Adjust the width as needed
+          width: "500px", // Adjust the width as needed
           height: "100%",
           margin: "auto", // Center the card
+          borderRadius: "10px",
+          border: "16px",
         }}
       >
         <CardHeader title={props.campaignName} subheader={props.brandName} />
@@ -139,30 +141,66 @@ const CampaignCard = (props) => {
           alt="Campaign Banner"
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div"></Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="h6" color="text.secondary">
             Total samples: {props.campaignRequests}
           </Typography>
           <br />
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body1" color="text.secondary">
             Credit: {props.campaignCredit}
           </Typography>
           <br />
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body1" color="text.secondary">
             {props.campaignDescription}{" "}
           </Typography>
         </CardContent>
         <CardActions>
           {userCtx.role === "user" && (
-            <Button onClick={() => navigateToCampaignDetail(campaignId)}>
+            <Button
+              sx={{
+                borderRadius: "20px",
+                letterSpacing: "3px",
+                padding: "8px",
+                color: "white",
+                fontWeight: "bold",
+                margin: "16px",
+              }}
+              fullWidth
+              onClick={() => navigateToCampaignDetail(campaignId)}
+            >
               More Details
             </Button>
           )}
           {userCtx.role === "brand" && (
-            <Button onClick={handleRequestDelete}>Delete</Button>
+            <Button
+              sx={{
+                borderRadius: "20px",
+                letterSpacing: "3px",
+                padding: "8px",
+                color: "white",
+                fontWeight: "bold",
+                margin: "16px",
+              }}
+              fullWidth
+              onClick={handleRequestDelete}
+            >
+              Delete
+            </Button>
           )}
           {userCtx.role === "brand" && (
-            <Button onClick={toggleUpdateCampaignModal}>Edit</Button>
+            <Button
+              sx={{
+                borderRadius: "20px",
+                letterSpacing: "3px",
+                padding: "8px",
+                color: "white",
+                fontWeight: "bold",
+                margin: "16px",
+              }}
+              fullWidth
+              onClick={toggleUpdateCampaignModal}
+            >
+              Edit
+            </Button>
           )}
         </CardActions>
       </Card>

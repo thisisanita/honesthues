@@ -7,6 +7,11 @@ import DropDown from "../components/DropDown";
 import ReviewCard from "../components/ReviewCard";
 import ReviewModal from "../components/ReviewModal";
 import ReviewProfileCard from "../components/ReviewProfileCard";
+import star_solid from "../images/star_solid.png";
+import star_half from "../images/star_half.png";
+import star_empty from "../images/star_empty.png";
+import { Box } from "@mui/material";
+import { Stack } from "@mui/material";
 
 const ProductDetail = () => {
   const { campaignId } = useParams();
@@ -16,7 +21,7 @@ const ProductDetail = () => {
   // const [details, setDetails] = useState("");
   // const [picture, setPicture] = useState("");
   // const [recommendation, setRecommendation] = useState("");
-  const [userReviewInfo, setUserReviewInfo] = useState({});
+  // const [userReviewInfo, setUserReviewInfo] = useState({});
   const userCtx = useContext(UserContext);
   const userEmail = userCtx.email;
   console.log(userCtx.email);
@@ -35,7 +40,22 @@ const ProductDetail = () => {
     toggleReviewModal();
   };
 
-  // console.log(campaignDetails.campaign_name);
+  const renderStars = (rating) => {
+    const stars = [];
+    for (let i = 0; i < 5; i++) {
+      if (i < rating) {
+        stars.push(<img className="rating" src={star_solid} alt="Full Star" />);
+      } else if (i < Math.ceil(rating)) {
+        stars.push(<img className="rating" src={star_half} alt="Half Star" />);
+      } else {
+        stars.push(
+          <img className="rating" src={star_empty} alt="Empty Star" />
+        );
+      }
+    }
+    return stars;
+  };
+
   const getProductDetails = async () => {
     try {
       const res = await fetchData(
@@ -59,33 +79,7 @@ const ProductDetail = () => {
       console.log(error);
     }
   };
-  // const createReview = async () => {
-  //   try {
-  //     const res = await fetchData(
-  //       "/api/reviews/create",
-  //       "POST",
-  //       {
-  //         campaignId: campaignId,
-  //         userId: userId,
-  //         rating: rating,
-  //         details: details,
-  //         picture: picture,
-  //         review_recommendation: recommendation,
-  //       },
-  //       userCtx.accessToken
-  //     );
 
-  //     if (res.ok) {
-  //       console.log("Successfully created review");
-  //     } else {
-  //       console.error("Error submitting review:", res.status, res.statusText);
-  //       console.log(res.data);
-  //     }
-  //   } catch (error) {
-  //     alert(JSON.stringify(error));
-  //     console.log(error);
-  //   }
-  // };
   const getReviews = async () => {
     try {
       const res = await fetchData(
@@ -101,30 +95,6 @@ const ProductDetail = () => {
         console.log(res.data);
         JSON.stringify(res.data);
         console.log(res.data);
-      } else {
-        console.error("Error fetching campaigns:", res.status, res.statusText);
-        console.log(res.data);
-      }
-    } catch (error) {
-      alert(JSON.stringify(error));
-      console.log(error);
-    }
-  };
-
-  const getUserInfo = async () => {
-    try {
-      const res = await fetchData(
-        "/api/profile/user/" + userEmail,
-        undefined,
-        undefined,
-        userCtx.accessToken
-      );
-      console.log("Response:", res); // Debugging
-
-      if (res.ok) {
-        console.log("Successfully gotten profile");
-        setUserReviewInfo(res.data);
-        JSON.stringify(res.data);
       } else {
         console.error("Error fetching campaigns:", res.status, res.statusText);
         console.log(res.data);
@@ -161,41 +131,60 @@ const ProductDetail = () => {
   useEffect(() => {
     getProductDetails();
     getReviews();
-    // getUserInfo();
   }, []);
-
-  useEffect(() => {
-    getUserInfo();
-  }, [setReviews]);
 
   return (
     <div>
-      <h1>{productDetails.product_name}</h1>
-      <h5>
-        <img src={productDetails.product_picture} alt="Product Picture" />
-      </h5>
-      <h1>{productDetails.product_description}</h1>
-      <h1>{productDetails.product_shades}</h1>
-      <h1>{productDetails.product_ingredients}</h1>
-      <h1>{productDetails.product_instructions}</h1>
-      <Button onClick={handleCreateReview}>Create Review</Button>
-      {reviews.map((review, idx) => {
-        return (
-          <ReviewCard
-            index={review.idx}
-            key={review.id}
-            id={review.id}
-            timestamp={review.timestamp}
-            rating={review.rating}
-            details={review.details}
-            picture={review.picture}
-            recommendation={review.review_recommendation}
-            title={review.title}
-          ></ReviewCard>
-        );
-      })}
-      <ReviewProfileCard userReviewInfo={userReviewInfo}></ReviewProfileCard>
-
+      <Box>
+        <Stack
+          direction="column"
+          // justifyContent="center"
+          // alignItems="center"
+          spacing={2}
+          margin="16px"
+          width="90%"
+        >
+          <h1>{productDetails.product_name}</h1>
+          <h5>
+            <img
+              className="campaignpicture"
+              src={productDetails.product_picture}
+              alt="Product Picture"
+            />
+          </h5>
+          <p>{productDetails.product_description}</p>
+          <p>Shades: {productDetails.product_shades}</p>
+          <p>Instructions: {productDetails.product_instructions}</p>
+          <h6>Ingredients: {productDetails.product_ingredients}</h6>
+          <Button onClick={handleCreateReview}>Create Review</Button>
+        </Stack>
+        <br></br>
+        {reviews.map((review, idx) => {
+          return (
+            <ReviewCard
+              index={review.idx}
+              key={review.id}
+              id={review.id}
+              timestamp={review.timestamp}
+              rating={renderStars(review.rating)}
+              details={review.details}
+              picture={review.picture}
+              recommendation={
+                review.review_recommendation
+                  ? "I recommended this product!"
+                  : "I do not recommended this product!"
+              }
+              title={review.title}
+              skinType={review.skin_type}
+              skinTone={review.skin_tone}
+              ageGroup={review.age_group}
+              hairColour={review.hair_colour}
+              eyeColour={review.eye_colour}
+              name={review.name}
+            ></ReviewCard>
+          );
+        })}
+      </Box>
       {showReviewModal && (
         <ReviewModal
           getReviews={getReviews}

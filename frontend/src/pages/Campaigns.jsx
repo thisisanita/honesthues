@@ -3,6 +3,7 @@ import CampaignCard from "../components/CampaignCard";
 import UserContext from "../context/user";
 import useFetch from "../hooks/useFetch";
 import CampaignDetail from "./CampaignDetail";
+import Grid from "@mui/material/Grid";
 
 const Campaigns = () => {
   const userCtx = useContext(UserContext);
@@ -40,8 +41,7 @@ const Campaigns = () => {
   }, []);
 
   return (
-    <div>
-      {/* <h1>hi</h1> */}
+    <div className="campaigncard">
       {campaigns.map((campaign, idx) => {
         return (
           <CampaignCard

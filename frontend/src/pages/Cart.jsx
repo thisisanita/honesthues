@@ -3,6 +3,8 @@ import CampaignCard from "../components/CampaignCard";
 import UserContext from "../context/user";
 import useFetch from "../hooks/useFetch";
 import Request from "../components/Request";
+import { Box } from "@mui/material";
+import { Stack } from "@mui/material";
 
 const Cart = () => {
   const userCtx = useContext(UserContext);
@@ -65,30 +67,37 @@ const Cart = () => {
 
   useEffect(() => {
     getUserRequests();
+    creditsFromWallet();
   }, []);
 
-  useEffect(() => {
-    creditsFromWallet();
-  }, [userRequests]);
+  // useEffect(() => {
+  //   creditsFromWallet();
+  // }, [userRequests]);
 
   return (
     <>
-      <h1>Wallet Amount: {walletCredits.total_amount}</h1>
-      {userRequests.map((request, idx) => {
-        return (
-          <Request
-            getUserRequests={getUserRequests}
-            walletCredits={walletCredits}
-            creditsFromWallet={creditsFromWallet}
-            requestId={request.id}
-            index={request.idx}
-            dateTime={request.date_time}
-            productName={request.product_name}
-            productShade={request.product_shade}
-            campaignCredit={request.campaign_credit}
-          ></Request>
-        );
-      })}
+      <Box
+        sx={{ display: "flex", justifyContent: "flex-end", padding: "24px" }}
+      >
+        <h3>Wallet Amount: {walletCredits.total_amount}</h3>
+      </Box>
+      <div>
+        {userRequests.map((request, idx) => {
+          return (
+            <Request
+              getUserRequests={getUserRequests}
+              walletCredits={walletCredits}
+              creditsFromWallet={creditsFromWallet}
+              requestId={request.id}
+              index={request.idx}
+              dateTime={request.date_time}
+              productName={request.product_name}
+              productShade={request.product_shade}
+              campaignCredit={request.campaign_credit}
+            ></Request>
+          );
+        })}
+      </div>
     </>
   );
 };

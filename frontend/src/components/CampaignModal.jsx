@@ -4,6 +4,9 @@ import UserContext from "../context/user";
 import DropDown from "../components/DropDown";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import { Stack } from "@mui/material";
+import { Container } from "@mui/material";
+import { Box } from "@mui/material";
 
 const CampaignModal = (props) => {
   const fetchData = useFetch();
@@ -195,84 +198,122 @@ const CampaignModal = (props) => {
   }, []);
 
   return (
-    <div>
-      <Input
-        label="Campaign Name"
-        type="text"
-        value={campaignName}
-        onChange={(e) => setCampaignName(e.target.value)}
-      ></Input>
-      <div>
+    <div className="overlay">
+      <div className="createcampaignmodal">
+        <h2>Create Campaign</h2>
+        <Stack direction="row" spacing={2}>
+          <Input
+            label="Campaign Name"
+            type="text"
+            value={campaignName}
+            onChange={(e) => setCampaignName(e.target.value)}
+            fullWidth
+          ></Input>
+          <Input
+            label="Campaign Picture"
+            type="text"
+            value={campaignPicture}
+            onChange={(e) => setCampaignPicture(e.target.value)}
+            fullWidth
+          ></Input>
+          <Button
+            sx={{
+              borderRadius: "20px",
+              letterSpacing: "3px",
+              padding: "8px",
+              color: "#CA7DF9",
+              fontWeight: "bold",
+            }}
+            variant="outlined"
+            id="upload_campaign_widget"
+            className="cloudinary-button"
+            fullWidth
+          >
+            Upload Picture
+          </Button>
+        </Stack>
+
         <Input
-          label="Campaign Picture"
+          label="Campaign Description"
           type="text"
-          value={campaignPicture}
-          onChange={(e) => setCampaignPicture(e.target.value)}
+          value={campaignDescription}
+          onChange={(e) => setCampaignDescription(e.target.value)}
+          fullWidth
         ></Input>
-        <Button id="upload_campaign_widget" className="cloudinary-button">
-          Upload Picture
-        </Button>
-      </div>
-      <Input
-        label="Campaign Description"
-        type="text"
-        value={campaignDescription}
-        onChange={(e) => setCampaignDescription(e.target.value)}
-      ></Input>
-      <Input
-        label="Campaign Credit"
-        type="number"
-        value={campaignCredit}
-        onChange={(e) => setCampaignCredit(e.target.value)}
-      ></Input>
-      <Input
-        label="Total Campaign Requests"
-        type="number"
-        value={campaignRequests}
-        onChange={(e) => setCampaignRequests(e.target.value)}
-      ></Input>
-      <Input
-        label="Product Name"
-        type="text"
-        value={productName}
-        onChange={(e) => setProductName(e.target.value)}
-      ></Input>
-      <div>
+        <Stack direction="row" spacing={2}>
+          <Input
+            label="Campaign Credit"
+            type="number"
+            value={campaignCredit}
+            onChange={(e) => setCampaignCredit(e.target.value)}
+            fullWidth
+          ></Input>
+          <Input
+            label="Total Campaign Requests"
+            type="number"
+            value={campaignRequests}
+            onChange={(e) => setCampaignRequests(e.target.value)}
+            fullWidth
+          ></Input>
+        </Stack>
+
+        <Stack direction="row" spacing={2}>
+          <Input
+            label="Product Name"
+            type="text"
+            value={productName}
+            onChange={(e) => setProductName(e.target.value)}
+            fullWidth
+          ></Input>
+          <Input
+            label="Product Picture"
+            type="text"
+            value={productPicture}
+            onChange={(e) => setProductPicture(e.target.value)}
+            fullWidth
+          ></Input>
+          <Button
+            sx={{
+              borderRadius: "20px",
+              letterSpacing: "3px",
+              padding: "8px",
+              color: "#CA7DF9",
+              fontWeight: "bold",
+            }}
+            variant="outlined"
+            id="upload_product_widget"
+            className="cloudinary-button"
+            fullWidth
+          >
+            Upload Picture
+          </Button>
+        </Stack>
         <Input
-          label="Product Picture"
+          label="Product Description"
           type="text"
-          value={productPicture}
-          onChange={(e) => setProductPicture(e.target.value)}
+          value={productDescription}
+          onChange={(e) => setProductDescription(e.target.value)}
         ></Input>
-        <Button id="upload_product_widget" className="cloudinary-button">
-          Upload Picture
-        </Button>
+        <Input
+          label="Product Shades"
+          type="text"
+          value={productShades}
+          onChange={(e) => setProductShades(e.target.value)}
+        ></Input>
+        <Input
+          label="Product Ingredients"
+          type="text"
+          value={productIngredients}
+          onChange={(e) => setProductIngredients(e.target.value)}
+        ></Input>
+        <Input
+          label="Product Instruction"
+          type="text"
+          value={productInstructions}
+          onChange={(e) => setProductInstructions(e.target.value)}
+        ></Input>
+        <Button onClick={handleCreateCampaign}>Create Campaign</Button>
       </div>
-      <Input
-        label="Product Description"
-        type="text"
-        value={productDescription}
-        onChange={(e) => setProductDescription(e.target.value)}
-      ></Input>
-      <Input
-        label="Product Shades"
-        type="text"
-        value={productShades}
-        onChange={(e) => setProductShades(e.target.value)}
-      ></Input>
-      <Input
-        label="Product Ingredients"
-        type="text"
-        value={productIngredients}
-        onChange={(e) => setProductIngredients(e.target.value)}
-      ></Input>
-      <Input
-        label="Product Instruction"
-        type="text"
-        value={productInstructions}
-        onChange={(e) => setProductInstructions(e.target.value)}
-      ></Input>
-      <Button onClick={handleCreateCampaign}>Create Campaign</Button>
     </div>
   );
 };

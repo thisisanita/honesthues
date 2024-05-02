@@ -40,7 +40,7 @@ const Reviews = () => {
   }, []);
 
   return (
-    <div>
+    <div className="campaigncard">
       {/* <h1>hi</h1> */}
       {products.map((product, idx) => {
         return (

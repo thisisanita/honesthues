@@ -7,6 +7,7 @@ import Button from "../components/Button";
 import { Container } from "@mui/material";
 import { Box } from "@mui/material";
 import { Stack } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const Registration = (props) => {
   const fetchData = useFetch();
@@ -55,6 +56,12 @@ const Registration = (props) => {
       contact_person: contactPerson,
       website,
       address,
+      gender,
+      age_group: ageGroup,
+      skin_tone: skinTone,
+      skin_type: skinType,
+      hair_colour: hairColour,
+      eye_colour: eyeColour,
     };
     const res = await fetchData("/auth/register", "POST", body);
 
@@ -68,6 +75,12 @@ const Registration = (props) => {
       setContactPerson("");
       setWebsite("");
       setAddress("");
+      setGender("");
+      setAgeGroup("");
+      setSkinTone("");
+      setSkinType("");
+      setHairColour("");
+      setEyeColour("");
       assignCreditstoWallet();
     } else {
       console.log(res.data);
@@ -131,6 +144,13 @@ const Registration = (props) => {
               type="text"
               value={contact}
               onChange={(e) => setContact(e.target.value)}
+              fullWidth
+            ></Input>
+            <Input
+              label="Address"
+              type="text"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
               fullWidth
             ></Input>
             {userType !== "brand" && (
@@ -278,6 +298,11 @@ const Registration = (props) => {
             >
               Register
             </Button>
+            <Link to="/login">
+              <Button sx={{ color: "#CA7DF9" }} variant="text" fullWidth>
+                Already have an account? Sign in
+              </Button>
+            </Link>
           </Stack>
         </Box>
       </Container>

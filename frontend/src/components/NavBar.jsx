@@ -9,6 +9,10 @@ import UserContext from "../context/user";
 const Navbar = () => {
   const userCtx = useContext(UserContext);
 
+  const handleLogout = () => {
+    userCtx.logout(); // Call the logout function from UserContext
+  };
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -35,6 +39,10 @@ const Navbar = () => {
             Cart
           </Button>
         )}
+        {/* Logout Button */}
+        <Button color="inherit" onClick={handleLogout}>
+          Logout
+        </Button>
       </Toolbar>
     </AppBar>
   );

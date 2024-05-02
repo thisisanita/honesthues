@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import Campaigns from "./pages/Campaigns";
@@ -14,6 +14,7 @@ import Cart from "./pages/Cart";
 import CreateCampaign from "./pages/CreateCampaign";
 import { ThemeProvider } from "@mui/material";
 import theme from "../theme";
+import "./index.css";
 
 function App() {
   const [accessToken, setAccessToken] = useState("");
@@ -23,6 +24,7 @@ function App() {
   const [userId, setUserId] = useState(null);
   const [brandId, setBrandId] = useState(null);
   const userCtx = useContext(UserContext);
+  const navigate = useNavigate();
 
   const login = (id, role) => {
     if (role === "user") {
@@ -36,8 +38,10 @@ function App() {
   const logout = () => {
     setUserId(null);
     setBrandId(null);
-    setRole(""); // Clear the role
-    // Additional logic for logout, such as clearing tokens or redirecting
+    setRole("");
+    setAccessToken("");
+    setEmail("");
+    navigate("/login");
   };
 
   return (
@@ -87,7 +91,7 @@ function App() {
           <Route path="*" element={<Navigate to="/login" />} />
           {/* <Route path="*" element={<NotFound />}></Route> */}
           {/* Add other routes as needed */}
-          <Route path="*" element={<Navigate to="/login" />} />
+          {/* <Route path="*" element={<Navigate to="/login" />} /> */}
           {/* Default route */}
         </Routes>
       </UserContext.Provider>

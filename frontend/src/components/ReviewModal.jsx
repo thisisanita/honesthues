@@ -11,6 +11,7 @@ import {
   FormControl,
   FormLabel,
 } from "@mui/material";
+import { Stack } from "@mui/material";
 
 const ReviewModal = (props) => {
   const fetchData = useFetch();
@@ -20,7 +21,7 @@ const ReviewModal = (props) => {
   const [picture, setPicture] = useState("");
   const [title, setTitle] = useState("");
   const [recommendation, setRecommendation] = useState(false);
-  const userId = userCtx.id;
+  const userId = userCtx.userId;
   const reviewUploadRef = useRef(null);
   const [userDetails, setUserDetails] = useState({});
 
@@ -61,6 +62,7 @@ const ReviewModal = (props) => {
 
       if (res.ok) {
         console.log("Successfully created review");
+        console.log(res.data);
       } else {
         console.error("Error submitting review:", res.status, res.statusText);
         console.log(res.data);
@@ -98,58 +100,78 @@ const ReviewModal = (props) => {
   }, []);
 
   return (
-    <div>
-      <Input
-        label="Review Title"
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      ></Input>
-      <FormControl component="fieldset">
-        <FormLabel component="legend">Rate this product</FormLabel>
-        <Rating
-          name="product-rating"
-          value={rating}
-          onChange={handleRatingChange}
-          precision={0.5} // Allows for half-star ratings
-        />
-      </FormControl>
-      <Input
-        label="Details"
-        type="text"
-        value={details}
-        onChange={(e) => setDetails(e.target.value)}
-      ></Input>
-      <div>
-        <Input
-          label="Review Picture"
-          type="text"
-          value={picture}
-          onChange={(e) => setPicture(e.target.value)}
-        ></Input>
-        <Button id="upload_review_widget" className="cloudinary-button">
-          Upload Picture
-        </Button>
+    <div className="overlay">
+      <div className="createcampaignmodal">
+        <h2>Create Review</h2>
+        <Stack direction="column" spacing={2}>
+          <Input
+            label="Review Title"
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            fullWidth
+          ></Input>
+
+          <Input
+            label="Details"
+            type="text"
+            value={details}
+            onChange={(e) => setDetails(e.target.value)}
+            fullWidth
+          ></Input>
+          <Stack direction="row" spacing={2}>
+            <Input
+              label="Review Picture"
+              type="text"
+              value={picture}
+              onChange={(e) => setPicture(e.target.value)}
+              fullWidth
+            ></Input>
+            <Button
+              sx={{
+                borderRadius: "20px",
+                letterSpacing: "3px",
+                padding: "8px",
+                color: "#CA7DF9",
+                fontWeight: "bold",
+              }}
+              variant="outlined"
+              id="upload_review_widget"
+              className="cloudinary-button"
+            >
+              Upload Picture
+            </Button>
+          </Stack>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Rate this product</FormLabel>
+            <Rating
+              name="product-rating"
+              value={rating}
+              onChange={handleRatingChange}
+              precision={0.5} // Allows for half-star ratings
+            />
+          </FormControl>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">
+              Would you recommend this product?
+            </FormLabel>
+            <ToggleButtonGroup
+              color="primary"
+              value={recommendation}
+              exclusive
+              onChange={handleRecommendedToggle}
+            >
+              <ToggleButton value={true} aria-label="recommend">
+                Recommend
+              </ToggleButton>
+              <ToggleButton value={false} aria-label="not recommend">
+                Not Recommend
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </FormControl>
+          <Button onClick={handleCreateReview}>Create Review</Button>
+        </Stack>
       </div>
-      <FormControl component="fieldset">
-        <FormLabel component="legend">
-          Would you recommend this product?
-        </FormLabel>
-        <ToggleButtonGroup
-          color="primary"
-          value={recommendation}
-          exclusive
-          onChange={handleRecommendedToggle}
-        >
-          <ToggleButton value={true} aria-label="recommend">
-            Recommend
-          </ToggleButton>
-          <ToggleButton value={false} aria-label="not recommend">
-            Not Recommend
-          </ToggleButton>
-        </ToggleButtonGroup>
-      </FormControl>
-      <Button onClick={handleCreateReview}>Create Review</Button>
     </div>
   );
 };

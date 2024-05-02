@@ -4,6 +4,8 @@ import UserContext from "../context/user";
 import useFetch from "../hooks/useFetch";
 import Button from "../components/Button";
 import CampaignModal from "../components/CampaignModal";
+import { Box } from "@mui/material";
+import { Stack } from "@mui/material";
 
 const CreateCampaign = () => {
   const userCtx = useContext(UserContext);
@@ -55,7 +57,11 @@ const CreateCampaign = () => {
   return (
     <div>
       <div>
-        <Button onClick={toggleCampaignModal}>Create Campaign</Button>
+        <Box
+          sx={{ display: "flex", justifyContent: "flex-end", padding: "24px" }}
+        >
+          <Button onClick={toggleCampaignModal}>Create Campaign</Button>
+        </Box>
 
         {showCampaignModal && (
           <CampaignModal

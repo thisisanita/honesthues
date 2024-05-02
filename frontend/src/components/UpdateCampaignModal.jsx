@@ -4,6 +4,9 @@ import UserContext from "../context/user";
 import DropDown from "../components/DropDown";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import { Container } from "@mui/material";
+import { Box } from "@mui/material";
+import { Stack } from "@mui/material";
 
 const UpdateCampaignModal = (props) => {
   const fetchData = useFetch();
@@ -170,84 +173,126 @@ const UpdateCampaignModal = (props) => {
   }, []);
 
   return (
-    <div>
-      <Input
-        label="Campaign Name"
-        type="text"
-        value={updateCampaignName}
-        onChange={(e) => setUpdateCampaignName(e.target.value)}
-      ></Input>
-      <div>
+    <div className="overlay">
+      <div className="updatecampaignmodal">
+        <h2>Update Campaign</h2>
+        <Stack direction="row" spacing={2}>
+          <Input
+            label="Campaign Name"
+            type="text"
+            value={updateCampaignName}
+            onChange={(e) => setUpdateCampaignName(e.target.value)}
+            fullWidth
+          ></Input>
+
+          <Input
+            label="Campaign Picture"
+            type="text"
+            value={updateCampaignPicture}
+            onChange={(e) => setUpdateCampaignPicture(e.target.value)}
+            fullWidth
+          ></Input>
+          <Button
+            sx={{
+              borderRadius: "20px",
+              letterSpacing: "3px",
+              padding: "8px",
+              color: "#CA7DF9",
+              fontWeight: "bold",
+            }}
+            variant="outlined"
+            id="upload_campaign_widget"
+            className="cloudinary-button"
+            fullWidth
+          >
+            Upload Picture
+          </Button>
+        </Stack>
+
         <Input
-          label="Campaign Picture"
+          label="Campaign Description"
           type="text"
-          value={updateCampaignPicture}
-          onChange={(e) => setUpdateCampaignPicture(e.target.value)}
+          value={updateCampaignDescription}
+          onChange={(e) => setUpdateCampaignDescription(e.target.value)}
+          fullWidth
         ></Input>
-        <Button id="upload_campaign_widget" className="cloudinary-button">
-          Upload Picture
-        </Button>
-      </div>
-      <Input
-        label="Campaign Description"
-        type="text"
-        value={updateCampaignDescription}
-        onChange={(e) => setUpdateCampaignDescription(e.target.value)}
-      ></Input>
-      <Input
-        label="Campaign Credit"
-        type="number"
-        value={updateCampaignCredit}
-        onChange={(e) => setUpdateCampaignCredit(e.target.value)}
-      ></Input>
-      <Input
-        label="Total Campaign Requests"
-        type="number"
-        value={updateCampaignRequests}
-        onChange={(e) => setUpdateCampaignRequests(e.target.value)}
-      ></Input>
-      <Input
-        label="Product Name"
-        type="text"
-        value={updateProductName}
-        onChange={(e) => setUpdateProductName(e.target.value)}
-      ></Input>
-      <div>
+        <Stack direction="row" spacing={2}>
+          <Input
+            label="Campaign Credit"
+            type="number"
+            value={updateCampaignCredit}
+            onChange={(e) => setUpdateCampaignCredit(e.target.value)}
+            fullWidth
+          ></Input>
+          <Input
+            label="Total Campaign Requests"
+            type="number"
+            value={updateCampaignRequests}
+            onChange={(e) => setUpdateCampaignRequests(e.target.value)}
+            fullWidth
+          ></Input>
+        </Stack>
+        <Stack direction="row" spacing={2}>
+          <Input
+            label="Product Name"
+            type="text"
+            value={updateProductName}
+            onChange={(e) => setUpdateProductName(e.target.value)}
+            fullWidth
+          ></Input>
+          <Input
+            label="Product Picture"
+            type="text"
+            value={updateProductPicture}
+            onChange={(e) => setUpdateProductPicture(e.target.value)}
+            fullWidth
+          ></Input>
+          <Button
+            sx={{
+              borderRadius: "20px",
+              letterSpacing: "3px",
+              padding: "8px",
+              color: "#CA7DF9",
+              fontWeight: "bold",
+            }}
+            variant="outlined"
+            id="upload_product_widget"
+            className="cloudinary-button"
+            fullWidth
+          >
+            Upload Picture
+          </Button>
+        </Stack>
         <Input
-          label="Product Picture"
+          label="Product Description"
           type="text"
-          value={updateProductPicture}
-          onChange={(e) => setUpdateProductPicture(e.target.value)}
+          value={updateProductDescription}
+          onChange={(e) => setUpdateProductDescription(e.target.value)}
+          fullWidth
         ></Input>
-        <Button id="upload_product_widget" className="cloudinary-button">
-          Upload Picture
-        </Button>
+        <Input
+          label="Product Shades"
+          type="text"
+          value={updateProductShades}
+          onChange={(e) => setUpdateProductShades(e.target.value)}
+          fullWidth
+        ></Input>
+        <Input
+          label="Product Ingredients"
+          type="text"
+          value={updateProductIngredients}
+          onChange={(e) => setUpdateProductIngredients(e.target.value)}
+          fullWidth
+        ></Input>
+        <Input
+          label="Product Instruction"
+          type="text"
+          value={updateProductInstructions}
+          onChange={(e) => setUpdateProductInstructions(e.target.value)}
+          fullWidths
+        ></Input>
+        <Button onClick={handleUpdateCampaign}>Update Campaign</Button>
       </div>
-      <Input
-        label="Product Description"
-        type="text"
-        value={updateProductDescription}
-        onChange={(e) => setUpdateProductDescription(e.target.value)}
-      ></Input>
-      <Input
-        label="Product Shades"
-        type="text"
-        value={updateProductShades}
-        onChange={(e) => setUpdateProductShades(e.target.value)}
-      ></Input>
-      <Input
-        label="Product Ingredients"
-        type="text"
-        value={updateProductIngredients}
-        onChange={(e) => setUpdateProductIngredients(e.target.value)}
-      ></Input>
-      <Input
-        label="Product Instruction"
-        type="text"
-        value={updateProductInstructions}
-        onChange={(e) => setUpdateProductInstructions(e.target.value)}
-      ></Input>
-      <Button onClick={handleUpdateCampaign}>Update Campaign</Button>
     </div>
   );
 };

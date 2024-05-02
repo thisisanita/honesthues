@@ -44,11 +44,13 @@ const getReviewsByCampaignId = async (req, res) => {
   const campaignId = req.params.campaignId;
 
   try {
-    // Construct the SELECT query
+    // Construct the SELECT query to join reviews with users
     const selectQuery = `
-       SELECT * FROM reviews
-       WHERE campaign_id = $1
-     `;
+      SELECT reviews.*, users.name, users.age_group, users.skin_tone, users.skin_type, users.hair_colour, users.eye_colour
+      FROM reviews
+      JOIN users ON reviews.user_id = users.id
+      WHERE reviews.campaign_id = $1
+    `;
 
     const result = await pool.query(selectQuery, [campaignId]);
 
@@ -61,7 +63,7 @@ const getReviewsByCampaignId = async (req, res) => {
     res.status(200).json(result.rows);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to fetch reviews" });
+    res.status(500).json({ error: "Failed to fetch reviews and user details" });
   }
 };
 
@@ -140,9 +142,13 @@ const getReviewStats = async (req, res) => {
       WHERE campaign_id = $1
     `;
     const percentageRecommendedQuery = `
-      SELECT COUNT(*) FILTER (WHERE review_recommendation = TRUE) / COUNT(*) * 100 AS percentage_recommended
-      FROM reviews
-      WHERE campaign_id = $1
+    SELECT 
+    CASE 
+      WHEN COUNT(*) = 0 THEN 0
+      ELSE COUNT(*) FILTER (WHERE review_recommendation = TRUE) / COUNT(*) * 100
+    END AS percentage_recommended
+  FROM reviews
+  WHERE campaign_id = $1
     `;
 
     // Execute the queries
@@ -172,10 +178,71 @@ const getReviewStats = async (req, res) => {
   }
 };
 
+const getProductandReviewStats = async (req, res) => {
+  const campaignId = req.params.campaignId; // Use query parameters instead of path parameters for flexibility
+
+  try {
+    let result;
+    if (campaignId) {
+      // Fetch review statistics for a specific campaign
+      const totalReviewsQuery = `
+        SELECT COUNT(*) AS total_reviews
+        FROM reviews
+        WHERE campaign_id = $1
+      `;
+      const averageRatingQuery = `
+        SELECT AVG(CAST(rating AS INTEGER)) AS average_rating
+        FROM reviews
+        WHERE campaign_id = $1
+      `;
+      const percentageRecommendedQuery = `
+        SELECT COUNT(*) FILTER (WHERE review_recommendation = TRUE) / COUNT(*) * 100 AS percentage_recommended
+        FROM reviews
+        WHERE campaign_id = $1
+      `;
+
+      const totalReviewsResult = await pool.query(totalReviewsQuery, [
+        campaignId,
+      ]);
+      const averageRatingResult = await pool.query(averageRatingQuery, [
+        campaignId,
+      ]);
+      const percentageRecommendedResult = await pool.query(
+        percentageRecommendedQuery,
+        [campaignId]
+      );
+
+      // Combine the results into a single object
+      const reviewStats = {
+        totalReviews: totalReviewsResult.rows[0].total_reviews,
+        averageRating: averageRatingResult.rows[0].average_rating,
+        percentageRecommended:
+          percentageRecommendedResult.rows[0].percentage_recommended,
+      };
+
+      result = { reviewStats };
+    } else {
+      // Fetch all campaigns
+      result = await pool.query(`
+        SELECT campaigns.*, brands.name
+        FROM campaigns
+        INNER JOIN brands ON campaigns.brand_id = brands.id
+        ORDER BY campaigns.id ASC
+      `);
+    }
+
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error(error);
+    throw error; // Rethrow the error to be handled by the Express middleware
+  }
+};
+
 module.exports = {
   createReview,
   getReviewsByCampaignId,
   updateReview,
   deleteReview,
   getReviewStats,
+  getProductandReviewStats,
 };

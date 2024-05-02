@@ -5,6 +5,7 @@ const {
   updateReview,
   deleteReview,
   getReviewStats,
+  getProductandReviewStats,
 } = require("../controllers/reviews");
 const { brandAuth, userAuth } = require("../middleware/auth");
 
@@ -15,5 +16,10 @@ router.get("/reviews/:campaignId", userAuth, getReviewsByCampaignId);
 router.patch("/reviews/edit", userAuth, updateReview);
 router.delete("/reviews/delete", userAuth, deleteReview);
 router.get("/reviews/stats/:campaignId", userAuth, getReviewStats);
+router.get(
+  "/campaigns/reviews/:campaignId",
+  userAuth,
+  getProductandReviewStats
+);
 
 module.exports = router;

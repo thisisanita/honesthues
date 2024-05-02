@@ -4,6 +4,8 @@ import UserContext from "../context/user";
 import useFetch from "../hooks/useFetch";
 import Button from "../components/Button";
 import DropDown from "../components/DropDown";
+import { Stack } from "@mui/material";
+import { Box } from "@mui/material";
 
 const CampaignDetail = (props) => {
   const { campaignId } = useParams();
@@ -177,24 +179,55 @@ const CampaignDetail = (props) => {
 
   return (
     <div>
-      <h1>{campaignDetails.campaign_name}</h1>
-      <h1>{campaignDetails.campaign_description}</h1>
-      <h1>{campaignDetails.product_shades}</h1>
-      <h1>{campaignDetails.product_shades}</h1>
-      <h1>{campaignDetails.campaign_credit}</h1>
+      <Box>
+        <Stack
+          direction="column"
+          // justifyContent="center"
+          // alignItems="center"
+          spacing={2}
+          margin="16px"
+          width="90%"
+        >
+          <h1>{campaignDetails.campaign_name}</h1>
 
-      {/* <h1>{props.totalCampaignRequests}</h1> */}
-      <h1>{campaignRequests.totalRequests}</h1>
-      <DropDown
-        labelId="shade-select-label"
-        label="Shade"
-        value={selectedShade}
-        options={productShadesArray}
-        onChange={(e) => setSelectedShade(e.target.value)}
-      ></DropDown>
-      <Button disabled={isButtonDisabled} onClick={handleRequestClick}>
-        Request Sample
-      </Button>
+          <img
+            className="campaignpicture"
+            src={campaignDetails.campaign_picture}
+            alt="Campaign Picture"
+          />
+          <p>{campaignDetails.campaign_description}</p>
+          <p>Campaign Credits: {campaignDetails.campaign_credit}</p>
+          <p>
+            {campaignRequests.totalRequests}/{campaignDetails.campaign_requests}{" "}
+            samples has been requested
+          </p>
+          <Stack direction="row" spacing={2} width="70%">
+            <DropDown
+              labelId="shade-select-label"
+              label="Shade"
+              value={selectedShade}
+              options={productShadesArray}
+              onChange={(e) => setSelectedShade(e.target.value)}
+              fullWidth
+            ></DropDown>
+            <Button
+              sx={{
+                width: "50%",
+                borderRadius: "20px",
+                margin: "8px 32px 8px 32px",
+                letterSpacing: "3px",
+                color: "white",
+                fontWeight: "bold",
+              }}
+              disabled={isButtonDisabled}
+              onClick={handleRequestClick}
+            >
+              Request Sample
+            </Button>
+          </Stack>
+        </Stack>
+      </Box>
+      <br></br>
     </div>
   );
 };
