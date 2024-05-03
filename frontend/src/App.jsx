@@ -5,9 +5,7 @@ import Registration from "./pages/Registration";
 import Campaigns from "./pages/Campaigns";
 import CampaignDetail from "./pages/CampaignDetail";
 import ProductDetail from "./pages/ProductDetail";
-import Homepage from "./pages/Homepage";
 import Reviews from "./pages/Reviews";
-import Profile from "./pages/Profile";
 import UserContext from "./context/user";
 import NavBar from "./components/NavBar";
 import Cart from "./pages/Cart";
@@ -62,11 +60,9 @@ function App() {
           logout,
         }}
       >
-        {/* {accessToken.length > 0 && <Navigate to="/campaigns"></Navigate>} */}
         {userId || accessToken.length > 0 ? <NavBar /> : null}
         <Routes>
           <Route path="/campaigns" element={<Campaigns />}></Route>
-          {/* <Route path="/create" element={<CreateCampaign />}></Route> */}
           <Route
             path="/campaigns/:campaignId"
             element={<CampaignDetail />}
@@ -76,11 +72,9 @@ function App() {
             element={<ProductDetail />}
           ></Route>
           <Route path="/" element={<Navigate replace to="/login" />}></Route>
-          <Route path="homepage" element={<Homepage />}></Route>
           <Route path="login" element={<Login />}></Route>
           <Route path="register" element={<Registration />}></Route>
           <Route path="reviews" element={<Reviews />}></Route>
-          <Route path="profile" element={<Profile />}></Route>
           <Route path="cart" element={<Cart />}></Route>
           <Route
             path="campaigns/create"
@@ -89,10 +83,6 @@ function App() {
             }
           />
           <Route path="*" element={<Navigate to="/login" />} />
-          {/* <Route path="*" element={<NotFound />}></Route> */}
-          {/* Add other routes as needed */}
-          {/* <Route path="*" element={<Navigate to="/login" />} /> */}
-          {/* Default route */}
         </Routes>
       </UserContext.Provider>
     </ThemeProvider>

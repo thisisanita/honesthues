@@ -1,64 +1,5 @@
 const { pool } = require("../db/db");
 
-// const createRequest = async (req, res) => {
-//   const { userId, received, campaignId } = req.body;
-
-//   try {
-//     // Construct the INSERT query
-//     const insertQuery = `
-//          INSERT INTO requests (user_id, received, campaign_id)
-//          VALUES ($1, $2, $3)
-//          RETURNING *
-//        `;
-
-//     const result = await pool.query(insertQuery, [
-//       userId,
-//       received,
-//       campaignId,
-//     ]);
-
-//     res.status(201).json(result.rows[0]);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: "Failed to create request" });
-//   }
-// };
-
-// const createRequest = async (req, res) => {
-//   const { userId, received, campaignId } = req.body;
-
-//   try {
-//     // First, check if the campaign exists
-//     const checkCampaignQuery = `
-//          SELECT * FROM campaigns
-//          WHERE id = $1
-//        `;
-//     const campaign = await pool.query(checkCampaignQuery, [campaignId]);
-
-//     if (campaign.rowCount === 0) {
-//       return res.status(400).json({ error: "Campaign not found" });
-//     }
-
-//     // Construct the INSERT query
-//     const insertQuery = `
-//          INSERT INTO requests (user_id, received, campaign_id)
-//          VALUES ($1, $2, $3)
-//          RETURNING *
-//        `;
-
-//     const result = await pool.query(insertQuery, [
-//       userId,
-//       received,
-//       campaignId,
-//     ]);
-
-//     res.status(201).json(result.rows[0]);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: "Failed to create request" });
-//   }
-// };
-
 const createRequest = async (req, res) => {
   const { userId, received, campaignId, productShade, submitted } = req.body;
 
@@ -144,33 +85,6 @@ const getRequestsByCampaign = async (req, res) => {
       .json({ error: "Failed to fetch requests", details: err.message });
   }
 };
-
-// const getRequestsByCampaign = async (req, res) => {
-//   const campaignId = req.params.campaignId;
-
-//   try {
-//     // Construct the SELECT query
-//     const selectQuery = `
-//          SELECT * FROM requests
-//          WHERE campaign_id = $1
-//        `;
-
-//     const result = await pool.query(selectQuery, [campaignId]);
-
-//     if (result.rowCount === 0) {
-//       return res
-//         .status(404)
-//         .json({ error: "No requests found for this campaign" });
-//     }
-
-//     res.status(200).json(result.rows);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: "Failed to fetch requests" });
-//   }
-// };
-
-//
 
 const getRequestsByUser = async (req, res) => {
   const userId = req.params.userId;

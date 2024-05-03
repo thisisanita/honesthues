@@ -28,7 +28,6 @@ const Cart = () => {
         setUserRequest(res.data);
         console.log(res.data);
         JSON.stringify(res.data);
-        console.log(res.data);
       } else {
         console.error("Error fetching request:", res.status, res.statusText);
         console.log(res.data);
@@ -50,7 +49,6 @@ const Cart = () => {
         setWalletCredits(res.data);
         console.log(res.data);
         JSON.stringify(res.data);
-        console.log(res.data);
       } else {
         console.error(
           "Error fetching wallet credits:",
@@ -69,10 +67,6 @@ const Cart = () => {
     getUserRequests();
     creditsFromWallet();
   }, []);
-
-  // useEffect(() => {
-  //   creditsFromWallet();
-  // }, [userRequests]);
 
   return (
     <>

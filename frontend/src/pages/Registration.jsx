@@ -8,6 +8,7 @@ import { Container } from "@mui/material";
 import { Box } from "@mui/material";
 import { Stack } from "@mui/material";
 import { Link } from "react-router-dom";
+import honesthues from "../images/honesthues.png";
 
 const Registration = (props) => {
   const fetchData = useFetch();
@@ -104,6 +105,8 @@ const Registration = (props) => {
             // margin="16px"
             width="500px"
           >
+            <img className="banner" src={honesthues} alt="honesthues" />
+
             <Input
               label="Username"
               type="text"
@@ -303,6 +306,7 @@ const Registration = (props) => {
                 Already have an account? Sign in
               </Button>
             </Link>
+            <br></br>
           </Stack>
         </Box>
       </Container>

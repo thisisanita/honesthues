@@ -27,13 +27,11 @@ const ReviewModal = (props) => {
 
   const handleRecommendedToggle = (event, newRecommend) => {
     setRecommendation(newRecommend);
-    // Here you can handle the user's choice, for example, sending it to a server
     console.log("User would recommend the product:", newRecommend);
   };
 
   const handleRatingChange = (event, newValue) => {
     setRating(newValue);
-    // Here you can handle the user's rating, for example, sending it to a server
     console.log("User rated the product:", newValue);
   };
 

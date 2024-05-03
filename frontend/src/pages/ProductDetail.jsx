@@ -6,7 +6,6 @@ import Button from "../components/Button";
 import DropDown from "../components/DropDown";
 import ReviewCard from "../components/ReviewCard";
 import ReviewModal from "../components/ReviewModal";
-import ReviewProfileCard from "../components/ReviewProfileCard";
 import star_solid from "../images/star_solid.png";
 import star_half from "../images/star_half.png";
 import star_empty from "../images/star_empty.png";
@@ -17,11 +16,6 @@ const ProductDetail = () => {
   const { campaignId } = useParams();
   const [productDetails, setProductDetails] = useState({});
   const [reviews, setReviews] = useState([]);
-  // const [rating, setRating] = useState("");
-  // const [details, setDetails] = useState("");
-  // const [picture, setPicture] = useState("");
-  // const [recommendation, setRecommendation] = useState("");
-  // const [userReviewInfo, setUserReviewInfo] = useState({});
   const userCtx = useContext(UserContext);
   const userEmail = userCtx.email;
   console.log(userCtx.email);
@@ -29,7 +23,6 @@ const ProductDetail = () => {
   console.log(userId);
   const fetchData = useFetch();
   const [showReviewModal, setShowReviewModal] = useState(false);
-  //   const [editingCampaign, setEditingCampaign] = useState(null);
 
   const toggleReviewModal = () => {
     setShowReviewModal(!showReviewModal);
@@ -64,12 +57,10 @@ const ProductDetail = () => {
         undefined,
         userCtx.accessToken
       );
-      console.log("Response:", res); // Debugging
       if (res.ok) {
         setProductDetails(res.data);
         console.log(res.data);
         JSON.stringify(res.data);
-        console.log(res.data);
       } else {
         console.error("Error fetching campaigns:", res.status, res.statusText);
         console.log(res.data);
@@ -90,13 +81,12 @@ const ProductDetail = () => {
       );
       console.log("Response:", res); // Debugging
       if (res.ok) {
-        console.log("Successfully gotten review");
+        console.log("Successfully gotten reviews");
         setReviews(res.data);
         console.log(res.data);
         JSON.stringify(res.data);
-        console.log(res.data);
       } else {
-        console.error("Error fetching campaigns:", res.status, res.statusText);
+        console.error("Error fetching reviews:", res.status, res.statusText);
         console.log(res.data);
       }
     } catch (error) {
@@ -118,7 +108,7 @@ const ProductDetail = () => {
         userCtx.accessToken
       );
       if (res.ok) {
-        console.log("Successfully edited credits");
+        console.log("Successfully added credits");
       } else {
         console.error("Error submitting request:", res.status, res.statusText);
         console.log(res.data);

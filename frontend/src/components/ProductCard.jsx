@@ -18,7 +18,6 @@ const ProductCard = (props) => {
   const fetchData = useFetch();
   const navigate = useNavigate();
   const campaignId = props.id;
-  console.log(campaignId);
   const [productStats, setProductStats] = useState({});
   const navigateToProductDetail = (campaignId) => {
     console.log("Navigating to product detail:", campaignId);
@@ -33,8 +32,6 @@ const ProductCard = (props) => {
         undefined,
         userCtx.accessToken
       );
-      console.log("Response:", res); // Debugging
-
       if (res.ok) {
         setProductStats(res.data);
         JSON.stringify(res.data);
@@ -55,7 +52,6 @@ const ProductCard = (props) => {
 
   useEffect(() => {
     getProductStats();
-    // getUserInfo();
   }, [campaignId]);
 
   return (
@@ -106,17 +102,6 @@ const ProductCard = (props) => {
           </Button>
         </CardActions>
       </Card>
-
-      {/* <h2>{props.productName}</h2>
-      <h2>{props.productDescription}</h2>
-      <p>{props.productShades}</p>
-      <h5>{props.productShadesPicture}</h5>
-      <p>{props.productInstructions}</p>
-      <h3>{props.brandName}</h3> */}
-      {/* <h3>{totalCampaignRequests.totalRequests}</h3> */}
-      {/* <CampaignDetail
-        totalCampaignRequests={totalCampaignRequests}
-      ></CampaignDetail> */}
     </div>
   );
 };

@@ -1,5 +1,4 @@
 const { pool } = require("../db/db");
-// const upload = require("../middleware/multerS3");
 
 const createCampaign = async (req, res) => {
   const {
@@ -59,73 +58,6 @@ const createCampaign = async (req, res) => {
     res.status(500).json({ error: "Failed to create campaign" });
   }
 };
-
-// const createCampaign = upload.fields([
-//   { name: "campaign_picture" },
-//   { name: "product_picture" },
-//   { name: "product_shades_picture" },
-// ])(async (req, res) => {
-//   const {
-//     email,
-//     campaign_description,
-//     campaign_credit,
-//     campaign_name,
-//     product_name,
-//     product_description,
-//     product_likes,
-//     product_shades,
-//     product_ingredients,
-//     product_instructions,
-//     campaign_requests,
-//   } = req.body;
-
-//   try {
-//     // Extract the file URLs from the uploaded files
-//     const campaignPictureUrl = req.files["campaign_picture"][0].location;
-//     const productPictureUrl = req.files["product_picture"][0].location;
-//     const productShadesPictureUrl =
-//       req.files["product_shades_picture"][0].location;
-
-//     // Your existing logic to find the brand by email and insert the new campaign
-//     const brandQuery = "SELECT id FROM brands WHERE lower(email) = lower($1)";
-//     const brandResult = await pool.query(brandQuery, [email]);
-
-//     if (brandResult.rowCount === 0) {
-//       return res.status(404).json({ error: "Brand not found" });
-//     }
-
-//     const brandId = brandResult.rows[0].id;
-//     // Use the extracted file URLs when inserting the campaign into the database
-
-//     // Example of using the file URLs in your database query
-//     const campaignQuery = `
-//        INSERT INTO campaigns (campaign_picture, campaign_description, campaign_credit, campaign_name, product_name, product_picture, product_description, product_likes, product_shades, product_shades_picture, product_ingredients, product_instructions, campaign_requests, brand_id)
-//        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
-//        RETURNING *
-//      `;
-//     const campaignResult = await pool.query(campaignQuery, [
-//       campaignPictureUrl,
-//       campaign_description,
-//       campaign_credit,
-//       campaign_name,
-//       product_name,
-//       productPictureUrl,
-//       product_description,
-//       product_likes,
-//       product_shades,
-//       productShadesPictureUrl,
-//       product_ingredients,
-//       product_instructions,
-//       campaign_requests,
-//       brandId,
-//     ]);
-
-//     res.status(201).json(campaignResult.rows[0]);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: "Failed to create campaign" });
-//   }
-// });
 
 const getAllCampaigns = async (req, res) => {
   try {

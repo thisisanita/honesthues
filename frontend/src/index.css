@@ -10,7 +10,7 @@ html {
 
 body {
   margin: 0;
-  background-color: #ffffff;
+  background-color: #fbfbf2;
 }
 
 .centered {
@@ -194,4 +194,9 @@ p {
   background: var(--Schemes-Surface, #faf3fc);
   margin: 16px;
   color: #000;
+}
+
+.banner {
+  width: 40%;
+  margin: 0px;
 }

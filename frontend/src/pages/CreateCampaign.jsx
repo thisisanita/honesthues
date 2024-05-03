@@ -14,18 +14,10 @@ const CreateCampaign = () => {
 
   const [campaignsByBrand, setCampaignsByBrand] = useState([]);
   const [showCampaignModal, setShowCampaignModal] = useState(false);
-  //   const [editingCampaign, setEditingCampaign] = useState(null);
 
   const toggleCampaignModal = () => {
     setShowCampaignModal(!showCampaignModal);
   };
-
-  //   const handleEditCampaign = (campaign) => {
-  //     setEditingCampaign(campaign);
-  //     toggleCampaignModal();
-  //   };
-
-  //   console.log(userCtx.accessToken);
 
   const getBrandCampaigns = async () => {
     try {
@@ -69,8 +61,6 @@ const CreateCampaign = () => {
             toggleCampaignModal={toggleCampaignModal}
             showCampaignModal={showCampaignModal}
             setShowCampaignModal={setShowCampaignModal}
-            // mode={editingCampaign ? "edit" : "create"}
-            // campaignData={editingCampaign || {}}
           />
         )}
 
@@ -96,7 +86,6 @@ const CreateCampaign = () => {
               dateTime={campaign.date_time}
               campaignRequests={campaign.campaign_requests}
               toggleCampaignModal={toggleCampaignModal}
-              // handleEditCampaign={handleEditCampaign}
             ></CampaignCard>
           );
         })}

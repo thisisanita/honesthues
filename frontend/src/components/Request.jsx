@@ -10,7 +10,7 @@ const Request = (props) => {
   const userEmail = userCtx.email;
 
   function showPopup(message) {
-    alert(message); // Simple alert for demonstration, replace with your preferred method
+    alert(message);
   }
   const deleteRequest = async () => {
     try {
@@ -103,10 +103,6 @@ const Request = (props) => {
       );
     }
   };
-
-  //   useEffect(() => {
-  //     creditsFromWallet();
-  //   }, []);
 
   return (
     <div className="wallet">

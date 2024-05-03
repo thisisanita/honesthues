@@ -19,7 +19,6 @@ const CampaignCard = (props) => {
   const fetchData = useFetch();
   const navigate = useNavigate();
   const campaignId = props.id;
-  // console.log(campaignId);
   const navigateToCampaignDetail = (campaignId) => {
     console.log("Navigating to campaign detail:", campaignId);
     navigate("/campaigns/" + campaignId);
@@ -55,71 +54,6 @@ const CampaignCard = (props) => {
     await deleteCampaign();
     await props.getBrandCampaigns();
   };
-
-  // const updateCampaign = async () => {
-  //   try {
-  //     const res = await fetchData(
-  //       "/api/campaigns/",
-  //       "PATCH",
-  //       {
-  //         id: campaignId,
-  //         campaign_name: campaignName,
-  //         campaign_picture: campaignPicture,
-  //         campaign_description: campaignDescription,
-  //         campaign_credit: campaignCredit,
-  //         campaign_requests: campaignRequests,
-  //         product_name: productName,
-  //         product_picture: productPicture,
-  //         product_description: productDescription,
-  //         product_shades: productShades,
-  //         product_ingredients: productIngredients,
-  //         product_instructions: productInstructions,
-  //       },
-  //       userCtx.accessToken
-  //     );
-
-  //     if (res.ok) {
-  //       console.log("Successfully updated campaign");
-  //     } else {
-  //       console.error("Error updating campaign:", res.status, res.statusText);
-  //     }
-  //   } catch (error) {
-  //     alert(JSON.stringify(error));
-  //     console.log(error);
-  //   }
-  // };
-
-  // const [totalCampaignRequests, setTotalCampaignRequests] = useState({});
-
-  // const getTotalCampaignRequests = async () => {
-  //   try {
-  //     const res = await fetchData(
-  //       "/api/campaigns/" + campaignId + "/requests",
-  //       undefined,
-  //       undefined,
-  //       userCtx.accessToken
-  //     );
-  //     console.log("Response:", res); // Debugging
-
-  //     if (res.ok) {
-  //       setTotalCampaignRequests(res.data);
-  //       console.log(res.data);
-  //       JSON.stringify(res.data);
-  //       console.log(res.data);
-  //     } else {
-  //       console.error("Error fetching campaigns:", res.status, res.statusText);
-  //       console.log(res.data);
-  //     }
-  //   } catch (error) {
-  //     alert(JSON.stringify(error));
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getCampaignDetails();
-  //   getTotalCampaignRequests();
-  // }, []);
 
   return (
     <div>
@@ -211,20 +145,6 @@ const CampaignCard = (props) => {
           getBrandCampaigns={props.getBrandCampaigns}
         ></UpdateCampaignModal>
       )}
-
-      {/* <h2>{props.id}</h2>
-      <h2>{props.campaignName}</h2>
-      <p>{props.brandName}</p>
-      <h5>
-        <img src={props.campaignPicture} alt="Campaign Picture" />
-      </h5>
-      <p>{props.dateTime}</p>
-      <p>{props.campaignRequests}</p>
-      <h3>{props.campaignDescription}</h3>
-      {/* <h3>{totalCampaignRequests.totalRequests}</h3> */}
-      {/* <CampaignDetail
-        totalCampaignRequests={totalCampaignRequests}
-      ></CampaignDetail> */}
     </div>
   );
 };

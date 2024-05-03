@@ -7,9 +7,7 @@ import CampaignDetail from "./CampaignDetail";
 const Reviews = () => {
   const userCtx = useContext(UserContext);
   const fetchData = useFetch();
-
   const [products, setProducts] = useState([]);
-  console.log(userCtx.accessToken);
 
   const getAllProducts = async () => {
     try {
@@ -41,7 +39,6 @@ const Reviews = () => {
 
   return (
     <div className="campaigncard">
-      {/* <h1>hi</h1> */}
       {products.map((product, idx) => {
         return (
           <ProductCard
@@ -49,10 +46,6 @@ const Reviews = () => {
             index={product.idx}
             key={product.id}
             id={product.id}
-            // campaignPicture={campaign.campaign_picture}
-            // campaignDescription={campaign.campaign_description}
-            // campaignCredit={campaign.campaign_credit}
-            // campaignName={campaign.campaign_name}
             productName={product.product_name}
             productDescription={product.product_description}
             productShades={product.product_shades}
@@ -60,8 +53,6 @@ const Reviews = () => {
             productIngredients={product.product_ingredients}
             productInstructions={product.product_instructions}
             brandName={product.name}
-            // dateTime={product.date_time}
-            // campaignRequests={campaign.campaign_requests}
           ></ProductCard>
         );
       })}

@@ -10,8 +10,6 @@ const Campaigns = () => {
   const fetchData = useFetch();
 
   const [campaigns, setCampaigns] = useState([]);
-  console.log(userCtx.accessToken);
-
   const getAllCampaigns = async () => {
     try {
       const res = await fetchData(

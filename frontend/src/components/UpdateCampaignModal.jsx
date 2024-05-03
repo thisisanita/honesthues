@@ -27,7 +27,6 @@ const UpdateCampaignModal = (props) => {
   const [updateCampaignRequests, setUpdateCampaignRequests] = useState("");
   const updateCampaignUploadRef = useRef(null);
   const updateProductUploadRef = useRef(null);
-  console.log(props.id);
   const campaignId = props.campaignId;
 
   const userEmail = userCtx.email;
@@ -97,16 +96,6 @@ const UpdateCampaignModal = (props) => {
       console.log(error);
     }
   };
-
-  //   const handleSubmitClick = async () => {
-  //     if (props.mode === "create") {
-  //       await createCampaign();
-  //     } else if (props.mode === "edit") {
-  //       await updateCampaign();
-  //     }
-  //     await props.getBrandCampaigns();
-  //     props.toggleCampaignModal();
-  //   };
 
   const handleUpdateCampaign = async () => {
     await updateCampaign();

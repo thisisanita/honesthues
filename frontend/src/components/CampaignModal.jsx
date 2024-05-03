@@ -24,7 +24,6 @@ const CampaignModal = (props) => {
   const [campaignRequests, setCampaignRequests] = useState("");
   const campaignUploadRef = useRef(null);
   const productUploadRef = useRef(null);
-  console.log(props.id);
 
   const userEmail = userCtx.email;
 
@@ -62,86 +61,11 @@ const CampaignModal = (props) => {
     }
   };
 
-  //   const updateCampaign = async () => {
-  //     try {
-  //       const res = await fetchData(
-  //         "/api/campaigns/",
-  //         "PATCH",
-  //         {
-  //           id: props.id,
-  //           campaign_name: campaignName,
-  //           campaign_picture: campaignPicture,
-  //           campaign_description: campaignDescription,
-  //           campaign_credit: campaignCredit,
-  //           campaign_requests: campaignRequests,
-  //           product_name: productName,
-  //           product_picture: productPicture,
-  //           product_description: productDescription,
-  //           product_shades: productShades,
-  //           product_ingredients: productIngredients,
-  //           product_instructions: productInstructions,
-  //         },
-  //         userCtx.accessToken
-  //       );
-
-  //       if (res.ok) {
-  //         console.log("Successfully updated campaign");
-  //       } else {
-  //         console.error("Error updating campaign:", res.status, res.statusText);
-  //       }
-  //     } catch (error) {
-  //       alert(JSON.stringify(error));
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   const handleSubmitClick = async () => {
-  //     if (props.mode === "create") {
-  //       await createCampaign();
-  //     } else if (props.mode === "edit") {
-  //       await updateCampaign();
-  //     }
-  //     await props.getBrandCampaigns();
-  //     props.toggleCampaignModal();
-  //   };
-
   const handleCreateCampaign = async () => {
     await createCampaign();
     await props.getBrandCampaigns();
     props.toggleCampaignModal();
   };
-
-  //   var myWidget = cloudinary.createUploadWidget(
-  //     {
-  //       cloudName: "dttapcv2c",
-  //       uploadPreset: "xmooqktl",
-  //     },
-  //     (error, result) => {
-  //       if (!error && result && result.event === "success") {
-  //         console.log("Done! Here is the image info:", result.info);
-  //       }
-  //     }
-  //   );
-
-  //   useEffect(() => {
-  //     // Assuming myWidget is defined and available in this scope
-  //     const uploadWidget = document.getElementById("upload_widget");
-
-  //     const handleClick = () => {
-  //       myWidget.open();
-  //     };
-
-  //     if (uploadWidget) {
-  //       uploadWidget.addEventListener("click", handleClick, false);
-  //     }
-
-  //     // Cleanup function to remove the event listener
-  //     return () => {
-  //       if (uploadWidget) {
-  //         uploadWidget.removeEventListener("click", handleClick, false);
-  //       }
-  //     };
-  //   }, []);
 
   useEffect(() => {
     if (!campaignUploadRef.current) {
