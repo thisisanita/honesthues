@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS public.reviews
 (
     id integer NOT NULL DEFAULT nextval('reviews_id_seq'::regclass),
     "timestamp" date DEFAULT CURRENT_TIMESTAMP,
-    rating character(60) COLLATE pg_catalog."default" NOT NULL,
+    rating numeric NOT NULL,
     details character varying(500) COLLATE pg_catalog."default",
     picture character varying(255) COLLATE pg_catalog."default",
     review_helpful boolean,
@@ -122,7 +122,6 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.reviews
     OWNER to db_user;
-
 
 -- Table: public.users
 
