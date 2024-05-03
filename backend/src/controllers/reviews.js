@@ -137,7 +137,7 @@ const getReviewStats = async (req, res) => {
       WHERE campaign_id = $1
     `;
     const averageRatingQuery = `
-      SELECT AVG(CAST(rating AS INTEGER)) AS average_rating
+      SELECT AVG(rating) AS average_rating
       FROM reviews
       WHERE campaign_id = $1
     `;

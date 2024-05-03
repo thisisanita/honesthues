@@ -41,6 +41,9 @@ const CampaignCard = (props) => {
       if (res.ok) {
         console.log("Successfully deleted request");
       } else {
+        alert(
+          "Campaign cannot be deleted because reviews have already been submitted for this campaign and its linked product."
+        );
         console.error("Error submitting request:", res.status, res.statusText);
         console.log(res.data);
       }
