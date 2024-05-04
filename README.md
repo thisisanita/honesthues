@@ -45,7 +45,7 @@ HonestHues has 2 main objectives:
 - On the reviews details page, users can see information about the product, all the reviews that other users have submitted regarding the product, and also the create a review for the product. Upon submitting a review, users will have 30 credits added to their cart. This is to encourage users to submit reviews for the product and ensure they have sufficient credits to request for other samples.
 
   ![Product Reviews](/frontend/src/images/product_reviews.png)
-  ![Request Samples](/frontend/src/images/request_sample.png)
+  ![Create Review](/frontend/src/images/create_product_review.png)
 
 ### Create Campaigns Page (Only for brand login )
 
@@ -55,22 +55,29 @@ HonestHues has 2 main objectives:
   ![Create Campaign Modal](/frontend/src/images/create_campaign_modal.png)
   ![Update Campaign Modal](/frontend/src/images/update_campaign_modal.png)
 
+### Technologies Used
+
+- PERN Stack (Postgres, SQL, React, Node.js)
+- Material UI
+- CSS
+- Phind, chatGPT
+
 ## .ENV VARIABLES
 
 ### Front-End
 
-VITE_SERVER
+- VITE_SERVER
 
 ### Back-End
 
-POSTGRES_HOST
-POSTGRES_PORT
-POSTGRES_USER
-POSTGRES_PASSWORD
-POSTGRES_DB
+- POSTGRES_HOST
+- POSTGRES_PORT
+- POSTGRES_USER
+- POSTGRES_PASSWORD
+- POSTGRES_DB
 
-ACCESS_SECRET
-REFRESH_SECRET
+- ACCESS_SECRET
+- REFRESH_SECRET
 
 ### Next Steps
 
