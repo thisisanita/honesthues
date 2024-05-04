@@ -15,7 +15,7 @@ HonestHues has 2 main objectives:
 
 - The platform allows 2 types of login and registration. One for users and one for brands. The respective users will have different access to different parts of the app.
 
-![Brand Login](/src/images/brand_login.png)
+![Brand Login](/frontend/src/images/brand_login.png)
 ![User Login](/src/images/user_login.png)
 
 ## .ENV VARIABLES
